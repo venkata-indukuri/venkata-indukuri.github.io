@@ -1,6 +1,6 @@
 <html>
 <body>
-<style type='text/css'>
+	<style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
 		background-color: #005290;
 		font-family: "Salesforce Sans", sans-serif;
@@ -27,7 +27,7 @@
 		//embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
 		//embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
 
-		// Settings for Live Agent
+		// Settings for Chat
 		//embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
 			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
 			// Returns a valid button ID.
@@ -40,17 +40,17 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://nowtv--stage.cs102.my.salesforce.com',
-			'https://stage-nowtv.cs102.force.com/',
+			'https://nowtv.my.salesforce.com',
+			'https://nowtv.secure.force.com',
 			gslbBaseURL,
-			'00D1j0000008aqN',
-			'venkattestsnapin',
+			'00DG0000000BmYO',
+			'BillieBotSnapin',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1cs-fra.salesforceliveagent.com/content',
+				baseLiveAgentContentURL: 'https://c.la1-c1-par.salesforceliveagent.com/content',
 				deploymentId: '572G00000004EEz',
-				buttonId: '5731j0000008OcE',
-				baseLiveAgentURL: 'https://d.la1-c1cs-fra.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1j000000008yEAA_16b41a85898',
+				buttonId: '5731p000000TR5I',
+				baseLiveAgentURL: 'https://d.la1-c1-par.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1p000000fxSfEAI_16910f57ba9',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -58,7 +58,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://nowtv--stage.cs102.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://nowtv.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
