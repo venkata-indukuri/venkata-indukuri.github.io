@@ -40,16 +40,16 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://nowtv.my.salesforce.com',
-			'https://nowtv.secure.force.com',
+			'https://nowtv--stage.cs105.my.salesforce.com',
+			'https://stage-nowtv.cs105.force.com/',
 			gslbBaseURL,
-			'00DG0000000BmYO',
+			'00D1w0000008aco',
 			'BillieBotSnapin',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1-par.salesforceliveagent.com/content',
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-cdg.salesforceliveagent.com/content',
 				deploymentId: '572G00000004EEz',
 				buttonId: '5731p000000TR5I',
-				baseLiveAgentURL: 'https://d.la1-c1-par.salesforceliveagent.com/chat',
+				baseLiveAgentURL: 'https://d.la1-c1cs-cdg.salesforceliveagent.com/chat',
 				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1p000000fxSfEAI_16910f57ba9',
 				isOfflineSupportEnabled: false
 			}
@@ -58,7 +58,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://nowtv.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://nowtv--stage.cs105.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
