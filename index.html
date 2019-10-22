@@ -35,28 +35,22 @@
 		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
 		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
 		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
-		embedded_svc.settings.extraPrechatInfo=[ { "entityName":"Case", "showOnCreate":true, "saveToTranscript":"CaseId", "entityFieldMaps":[ { "fieldName":"Origin", "label":"Origin", "doFind":false, "isExactMatch":false, "doCreate":true }, { "fieldName":"Subject", "label":"Subject", "doFind":false, "isExactMatch":false, "doCreate":true }, { "fieldName":"Type", "label":"Case Type", "doFind":false, "isExactMatch":false, "doCreate":true }, { "fieldName":"Profile_ID__c", "label":"Profile Id", "doFind":false, "isExactMatch":false, "doCreate":true }, { "fieldName":"Logged_In_Status__c", "label":"Logged In", "doFind":false, "isExactMatch":false, "doCreate":true } ] }, { "entityName":"Contact", "showOnCreate":true, "saveToTranscript":"ContactId", "entityFieldMaps":[ { "fieldName":"Contact_Id__c", "label":"Contact Id", "doFind":true, "isExactMatch":true, "doCreate":false } ], "linkToEntityName":"Case", "linkToEntityField":"ContactId" } ];
-		embedded_svc.settings.extraPrechatFormDetails=[ { "label":"Origin", "value":"LiveAgent", "transcriptFields":[ ], "displayToAgent":true, "name":"Origin" }, { "label":"Subject", "value":"Customer chat", "transcriptFields":[ ], "displayToAgent":true, "name":"Subject" }, { "label":"Case Type", "value":"Question", "transcriptFields":[ ], "displayToAgent":true, "name":"Type" }, { "label":"Profile Id", "value":"74975778", "transcriptFields":[ ], "displayToAgent":true, "name":"Profile_ID__c" }, { "label":"Contact Id", "value":"74649406", "transcriptFields":[ ], "displayToAgent":true, "name":"Contact_Id__c" }, { "label":"Logged In", "value":true, "transcriptFields":[ ], "displayToAgent":true, "name":"Logged_In_Status__c" } ];
-
-
-
-
 
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://ppv.my.salesforce.com',
-			'https://ppv.secure.force.com',
+			'https://ppv--stage.my.salesforce.com',
+			'https://stage-ppv.cs100.force.com/',
 			gslbBaseURL,
-			'00D1t000000DqrV',
-			'ppv2',
+			'00D1x0000000arp',
+			'PPV',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1-cdg.salesforceliveagent.com/content',
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-fra.salesforceliveagent.com/content',
 				deploymentId: '5721t000000CooW',
-				buttonId: '5731t000000kAKt',
-				baseLiveAgentURL: 'https://d.la1-c1-cdg.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1t000000XbRKEA0_16871817c91',
+				buttonId: '5731t000000CpIt',
+				baseLiveAgentURL: 'https://d.la1-c1cs-fra.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1t000000XaVJEA0_166afe7e949',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -64,7 +58,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ppv.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ppv--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
@@ -73,6 +67,5 @@
 		initESW('https://service.force.com');
 	}
 </script>
-
 </body>
 </html>
