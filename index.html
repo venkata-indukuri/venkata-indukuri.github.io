@@ -40,10 +40,10 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://ppv--stage.my.salesforce.com',
-			'https://stage-ppv.cs100.force.com/',
+			'https://ppv--quality.my.salesforce.com',
+			'https://quality-ppv.cs101.force.com/',
 			gslbBaseURL,
-			'00D1x0000000arp',
+			'00D1X0000008hL5',
 			'PPV',
 			{
 				baseLiveAgentContentURL: 'https://c.la1-c1cs-fra.salesforceliveagent.com/content',
@@ -58,7 +58,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ppv--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ppv--quality.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
