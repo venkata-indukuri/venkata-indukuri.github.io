@@ -4,10 +4,15 @@
   <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
 		background-color: #005290;
-		font-family: "Arial", sans-serif;
+		font-family: "Salesforce Sans", sans-serif;
 	}
 	.embeddedServiceHelpButton .helpButton .uiButton:focus {
 		outline: 1px solid #005290;
+	}
+	@font-face {
+		font-family: 'Salesforce Sans';
+		src: url('https://www.sfdcstatic.com/system/shared/common/assets/fonts/SalesforceSans/SalesforceSans-Regular.woff') format('woff'),
+		url('https://www.sfdcstatic.com/system/shared/common/assets/fonts/SalesforceSans/SalesforceSans-Regular.ttf') format('truetype');
 	}
 </style>
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
@@ -30,24 +35,24 @@
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 		embedded_svc.init(
-			'https://ppv--mohamed.my.salesforce.com',
-			'https://mohamed-ppv.cs89.force.com/',
+			'https://ppv--quality.my.salesforce.com',
+			'https://quality-ppv.cs101.force.com/',
 			gslbBaseURL,
-			'00D0E000000AVSZ',
-			'PPV_Test1',
+			'00D1X0000008hL5',
+			'PPV',
 			{
-				baseLiveAgentContentURL: 'https://c.la2-c1cs-fra.salesforceliveagent.com/content',
-				deploymentId: '5720E00000000e1',
-				buttonId: '5730E00000000tl',
-				baseLiveAgentURL: 'https://d.la2-c1cs-fra.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I0E0000008OVMUA2_16fae291351',
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-fra.salesforceliveagent.com/content',
+				deploymentId: '5721t000000CooW',
+				buttonId: '5731t000000CpIt',
+				baseLiveAgentURL: 'https://d.la1-c1cs-fra.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1t000000XaVJEA0_166afe7e949',
 				isOfflineSupportEnabled: false
 			}
 		);
 	};
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ppv--mohamed.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ppv--quality.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
@@ -56,7 +61,6 @@
 		initESW('https://service.force.com');
 	}
 </script>
-
     
 </body>
 </html>
