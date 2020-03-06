@@ -1,12 +1,13 @@
 <html>
 <body>
+
 <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
-		background-color: #05AC3F;
+		background-color: #653796;
 		font-family: "Salesforce Sans", sans-serif;
 	}
 	.embeddedServiceHelpButton .helpButton .uiButton:focus {
-		outline: 1px solid #05AC3F;
+		outline: 1px solid #653796;
 	}
 	@font-face {
 		font-family: 'Salesforce Sans';
@@ -105,23 +106,22 @@ embedded_svc.settings.extraPrechatFormDetails = [{
   "value": "Do the work",
   "displayToAgent": true
 }];
-		
-		
+
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://ott-nbcu--stage.my.salesforce.com',
-			'https://stage-ott-nbcu.cs18.force.com/',
+			'https://nowtv--stage.cs87.my.salesforce.com',
+			'https://stage-nowtv.cs87.force.com/',
 			gslbBaseURL,
-			'00D110000001l5l',
+			'00D8E000000Dphr',
 			'Snap_in',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1cs-ord.salesforceliveagent.com/content',
-				deploymentId: '5723i000000LjBv',
-				buttonId: '5733i000000LWoa',
-				baseLiveAgentURL: 'https://d.la1-c1cs-ord.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3i000000CrRYEA0_16e5f5012f3',
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-lo2.salesforceliveagent.com/content',
+				deploymentId: '572G00000004EEz',
+				buttonId: '573G00000004ERh',
+				baseLiveAgentURL: 'https://d.la1-c1cs-lo2.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1p000000KyjaEAC_1602664f31e',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -129,7 +129,7 @@ embedded_svc.settings.extraPrechatFormDetails = [{
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-nbcu--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://nowtv--stage.cs87.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
