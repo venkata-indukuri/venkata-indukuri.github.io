@@ -1,20 +1,12 @@
 <html>
 <body>
-<html>
-<body>
-
 <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
-		background-color: #05AC3F;
-		font-family: "Salesforce Sans", sans-serif;
+		background-color: #005290;
+		font-family: "Arial", sans-serif;
 	}
 	.embeddedServiceHelpButton .helpButton .uiButton:focus {
-		outline: 1px solid #05AC3F;
-	}
-	@font-face {
-		font-family: 'Salesforce Sans';
-		src: url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.woff') format('woff'),
-		url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.ttf') format('truetype');
+		outline: 1px solid #005290;
 	}
 </style>
 
@@ -38,93 +30,22 @@
 		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
 		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
 		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
-		
-		embedded_svc.settings.extraPrechatInfo = [{	
-  "entityName": "Contact",	
-  "entityFieldMaps": [{	
-    "isExactMatch": true,	
-    "fieldName": "FirstName",	
-    "doCreate": true,	
-    "doFind": true,	
-    "label": "firstName"	
-  }, {	
-    "isExactMatch": true,	
-    "fieldName": "LastName",	
-    "doCreate": true,	
-    "doFind": true,	
-    "label": "LastName"	
-  }, {	
-    "isExactMatch": true,	
-    "fieldName": "Email",	
-    "doCreate": true,	
-    "doFind": true,	
-    "label": "Email"	
-  }]	
-}, {	
-  "entityName": "Case",	
-  "entityFieldMaps": [{	
-    "isExactMatch": false,	
-    "fieldName": "Subject",	
-    "doCreate": true,	
-    "doFind": false,	
-    "label": "issue"	
-  }, {	
-    "isExactMatch": false,	
-    "fieldName": "Status",	
-    "doCreate": true,	
-    "doFind": false,	
-    "label": "Status"	
-  }, {	
-    "isExactMatch": false,	
-    "fieldName": "Origin",	
-    "doCreate": true,	
-    "doFind": false,	
-    "label": "Origin"	
-  }]	
-}, {	
-  "entityName": "Account",	
-  "entityFieldMaps": [{	
-    "isExactMatch": true,	
-    "fieldName": "Name",	
-    "doCreate": true,	
-    "doFind": true,	
-    "label": "LastName"	
-  }]	
-}];	
-embedded_svc.settings.extraPrechatFormDetails = [{	
-  "label": "firstName",	
-  "value": "John",	
-  "displayToAgent": true	
-}, {	
-  "label": "LastName",	
-  "value": "Doe",	
-  "displayToAgent": false	
-}, {	
-  "label": "Email",	
-  "value": "john.doe@salesforce.com",	
-  "displayToAgent": true	
-}, {	
-  "label": "issue",	
-  "value": "Do the work",	
-  "displayToAgent": true	
-}];	
-
 
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
 			'https://ott-nbcu--stage.my.salesforce.com',
-			'https://stage-ott-nbcu.cs18.force.com/',
+			'https://stage-ott-nbcu.cs123.force.com/',
 			gslbBaseURL,
-			'00D110000001l5l',
-			'Snap_in',
+			'00D3I0000008aR0',
+			'FlowBasedPeacock_Snapin',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1cs-ord.salesforceliveagent.com/content',
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-ia4.salesforceliveagent.com/content',
 				deploymentId: '5723i000000LjBv',
 				buttonId: '5733i000000LWoa',
-				baseLiveAgentURL: 'https://d.la1-c1cs-ord.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3i000000CrRYEA0_16e5f5012f3',
+				baseLiveAgentURL: 'https://d.la1-c1cs-ia4.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3I0000008OItUAM_171317ac7d1',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -141,8 +62,6 @@ embedded_svc.settings.extraPrechatFormDetails = [{
 		initESW('https://service.force.com');
 	}
 </script>
-</body>
-</html>
 
 </body>
 </html>
