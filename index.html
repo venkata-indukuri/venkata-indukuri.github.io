@@ -2,16 +2,11 @@
 <body>
 <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
-		background-color: #653796;
-		font-family: "Salesforce Sans", sans-serif;
+		background-color: #005290;
+		font-family: "Arial", sans-serif;
 	}
 	.embeddedServiceHelpButton .helpButton .uiButton:focus {
-		outline: 1px solid #653796;
-	}
-	@font-face {
-		font-family: 'Salesforce Sans';
-		src: url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.woff') format('woff'),
-		url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.ttf') format('truetype');
+		outline: 1px solid #005290;
 	}
 </style>
 
@@ -40,17 +35,17 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://now--stage.cs110.my.salesforce.com',
-			'https://stage-nowtv-international.cs110.force.com/',
+			'https://ott-nbcu--stage.my.salesforce.com',
+			'https://stage-ott-nbcu.cs123.force.com/',
 			gslbBaseURL,
-			'00D0C0000008avK',
-			'Snap_in',
+			'00D3I0000008aR0',
+			'FlowBasedPeacock_Snapin',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1cs-lo2.salesforceliveagent.com/content',
-				deploymentId: '57258000000Cdlf',
-				buttonId: '573580000004H5b',
-				baseLiveAgentURL: 'https://d.la1-c1cs-lo2.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I58000000CaSyEAK_164b3064c25',
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-ia4.salesforceliveagent.com/content',
+				deploymentId: '5723i000000LjBv',
+				buttonId: '5733i000000LWoa',
+				baseLiveAgentURL: 'https://d.la1-c1cs-ia4.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3I0000008OItUAM_171317ac7d1',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -58,7 +53,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://now--stage.cs110.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-nbcu--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
