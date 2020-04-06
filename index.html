@@ -53,6 +53,13 @@
         "doCreate": true
       },
       {
+        "fieldName": "ContactId",
+        "label": "Contact Id",
+        "doFind": false,
+        "isExactMatch": false,
+        "doCreate": true
+      },
+      {
         "fieldName": "Brand__c",
         "label": "Brand",
         "doFind": false,
@@ -88,20 +95,6 @@
         "doCreate": true
       },
       {
-        "fieldName": "Last_Article_Viewed__c",
-        "label": "Last Article Viewed",
-        "doFind": false,
-        "isExactMatch": false,
-        "doCreate": true
-      },
-      {
-        "fieldName": "Logged_In_Status__c",
-        "label": "Logged In",
-        "doFind": false,
-        "isExactMatch": false,
-        "doCreate": true
-      },
-      {
         "fieldName": "Type",
         "label": "Case Type",
         "doFind": false,
@@ -109,7 +102,24 @@
         "doCreate": true
       },
     ]
-  }];
+  },
+  {
+    "entityName": "Contact",
+    "showOnCreate": true,
+    "linkToEntityName": "Case",
+    "linkToEntityField": "ContactId",
+    "saveToTranscript": "ContactId",
+    "entityFieldMaps": [
+      {
+        "fieldName": "Id",
+        "label": "Contact Id",
+        "doFind": true,
+        "isExactMatch": true,
+        "doCreate": false
+      },
+    ]
+  }
+  ];
   const extraPrechatFormDetails = [
     {
       "label": "Origin",
@@ -121,61 +131,60 @@
     },
     {
       "label": "Brand",
-      "value": "Peacock",
+      "value": "NOW TV",
       "entityMaps": [],
       "transcriptFields": [],
-      "displayToAgent": true
+      "displayToAgent": true,
+      "doKnowledgeSearch": false
     },
     {
       "label": "Subject",
       "value": "default",
       "entityMaps": [],
       "transcriptFields": [],
-      "displayToAgent": true
+      "displayToAgent": true,
+      "doKnowledgeSearch": false
     },
     {
       "label": "Territory",
       "value": getTerritoryCode(),
       "entityMaps": [],
       "transcriptFields": [],
-      "displayToAgent": true
+      "displayToAgent": true,
+      "doKnowledgeSearch": false
     },
     {
       "label": "Customer Case Classification",
       "value": "I'd like to give you some feedback",
       "entityMaps": [],
       "transcriptFields": [],
-      "displayToAgent": true
+      "displayToAgent": true,
+      "doKnowledgeSearch": false
     },
     {
       "label": "Customer Case Service Type",
       "value": "TV",
       "entityMaps": [],
       "transcriptFields": [],
-      "displayToAgent": true
-    },
-    {
-      "label": "Last Article Viewed",
-      "value": null,
-      "transcriptFields": [],
       "displayToAgent": true,
-      "name": "Last_Article_Viewed__c"
-    },
-    {
-      "label": "Logged In",
-      "value": false,
-      "transcriptFields": [],
-      "displayToAgent": true,
-      "name": "Logged_In_Status__c"
+      "doKnowledgeSearch": false
     },
     {
       "label": "Case Type",
       "value": "Feedback",
       "entityMaps": [],
       "transcriptFields": [],
-      "displayToAgent": true
+      "displayToAgent": true,
+      "doKnowledgeSearch": false
     }
   ];
+  extraPrechatFormDetails.push({
+    "label": "Contact Id",
+    "name": "Id",
+    "value": window._contactId,
+    "transcriptFields": [],
+    "displayToAgent": true
+  });
 		
 
 		embedded_svc.init(
