@@ -2,11 +2,11 @@
 <body>
 	<style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
-		background-color: #0073c5;
+		background-color: #005290;
 		font-family: "Salesforce Sans", sans-serif;
 	}
 	.embeddedServiceHelpButton .helpButton .uiButton:focus {
-		outline: 1px solid #0073c5;
+		outline: 1px solid #005290;
 	}
 	@font-face {
 		font-family: 'Salesforce Sans';
@@ -40,17 +40,17 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://ott-at--stage.my.salesforce.com',
-			'https://stage-ott-at.cs110.force.com',
+			'https://ppv--quality.my.salesforce.com',
+			'https://quality-ppv.cs101.force.com',
 			gslbBaseURL,
-			'00D0C0000008amV',
-			'Snap_in',
+			'00D1X0000008hL5',
+			'PPV',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1cs-lo3.salesforceliveagent.com/content',
-				deploymentId: '5721r0000008fpt',
-				buttonId: '5731r000000TZCM',
-				baseLiveAgentURL: 'https://d.la1-c1cs-lo3.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1r000000TNi4EAG_164ad8a821c',
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-cdg.salesforceliveagent.com/content',
+				deploymentId: '5721t000000CooW',
+				buttonId: '5731t000000CpIt',
+				baseLiveAgentURL: 'https://d.la1-c1cs-cdg.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1t000000XaVJEA0_166afe7e949',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -58,7 +58,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-at--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ppv--quality.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
