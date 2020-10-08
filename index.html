@@ -40,16 +40,16 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://ott-nbcu--venkate.my.salesforce.com',
-			'https://venkate-ott-nbcu.cs35.force.com',
+			'https://ott-nbcu--stage.my.salesforce.com',
+			'https://stage-ott-nbcu.cs90.force.com',
 			gslbBaseURL,
-			'00D2g0000000ZLU',
+			'00D1F000000ANOb',
 			'Snap_in',
 			{
-				baseLiveAgentContentURL: 'https://c.la3-c1cs-ph2.salesforceliveagent.com/content',
+				baseLiveAgentContentURL: 'https://c.la4-c1cs-phx.salesforceliveagent.com/content',
 				deploymentId: '5723i000000LjBv',
 				buttonId: '5733i000000LWoa',
-				baseLiveAgentURL: 'https://d.la3-c1cs-ph2.salesforceliveagent.com/chat',
+				baseLiveAgentURL: 'https://d.la4-c1cs-phx.salesforceliveagent.com/chat',
 				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3i000000CrRYEA0_16e5f5012f3',
 				isOfflineSupportEnabled: false
 			}
@@ -58,7 +58,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-nbcu--venkate.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-nbcu--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
