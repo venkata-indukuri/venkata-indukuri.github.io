@@ -35,7 +35,7 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://cs105.salesforce.com',
+			'https://ott-de--stage.my.salesforce.com',
 			'https://stage-ott-de.cs105.force.com',
 			gslbBaseURL,
 			'00D1w0000008gPy',
@@ -53,7 +53,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://cs105.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-de--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
