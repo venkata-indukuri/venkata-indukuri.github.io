@@ -2,11 +2,16 @@
 <body>
 <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
-		background-color: #005290;
-		font-family: "Arial", sans-serif;
+		background-color: #0073c5;
+		font-family: "Salesforce Sans", sans-serif;
 	}
 	.embeddedServiceHelpButton .helpButton .uiButton:focus {
-		outline: 1px solid #005290;
+		outline: 1px solid #0073c5;
+	}
+	@font-face {
+		font-family: 'Salesforce Sans';
+		src: url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.woff') format('woff'),
+		url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.ttf') format('truetype');
 	}
 </style>
 
@@ -35,17 +40,17 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://ott-de--stage.my.salesforce.com',
-			'https://stage-ott-de.cs105.force.com',
+			'https://ott-at--stage.my.salesforce.com',
+			'https://stage-ott-at.cs122.force.com',
 			gslbBaseURL,
-			'00D1w0000008gPy',
-			'Snap_In_DE_Stage',
+			'00D3H0000008anJ',
+			'Snap_in',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c1cs-fra.salesforceliveagent.com/content',
-				deploymentId: '5721w0000004CpA',
-				buttonId: '5737R000000U2Wt',
-				baseLiveAgentURL: 'https://d.la1-c1cs-fra.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1w0000004CZLEA2_175f492b7f6',
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-lo3.salesforceliveagent.com/content',
+				deploymentId: '5721r0000008fpt',
+				buttonId: '5731r000000TZCM',
+				baseLiveAgentURL: 'https://d.la1-c1cs-lo3.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1r000000TNi4EAG_164ad8a821c',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -53,7 +58,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-de--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-at--stage.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
