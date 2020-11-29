@@ -35,6 +35,8 @@
 		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
 		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
 		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+		
+		embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case","showOnCreate":true,"saveToTranscript":"CaseId","entityFieldMaps":[{"fieldName":"Origin","label":"Origin","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Subject","label":"Subject","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Type","label":"Case Type","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Profile_ID__c","label":"Profile Id","doFind":false,"isExactMatch":false,"doCreate":true}]},{"entityName":"Contact","showOnCreate":true,"saveToTranscript":"ContactId","entityFieldMaps":[{"fieldName":"Contact_Id__c","label":"Contact Id","doFind":true,"isExactMatch":true,"doCreate":false}],"linkToEntityName":"Case","linkToEntityField":"ContactId"}];
 
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
