@@ -39,7 +39,8 @@
 {"label":"Subject","value":"Customer chat","transcriptFields":[],"displayToAgent":true,"name":"Subject"},
 {"label":"Case Type","value":"Question","transcriptFields":[],"displayToAgent":true,"name":"Type"}]; 
 
-embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case","showOnCreate":true,"saveToTranscript":"CaseId","entityFieldMaps":[{"fieldName":"Origin","label":"Origin","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Subject","label":"Subject","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Type","label":"Case Type","doFind":false,"isExactMatch":false,"doCreate":true},"linkToEntityName":"Case","linkToEntityField":"ContactId"}];
+embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case","showOnCreate":true,"saveToTranscript":"CaseId","entityFieldMaps":[{"fieldName":"Origin","label":"Origin","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Subject","label":"Subject","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Type","label":"Case Type","doFind":false,"isExactMatch":false,"doCreate":true},{"entityName":"Contact","showOnCreate":true,"saveToTranscript":"ContactId","entityFieldMaps":[{"fieldName":"Contact_Id__c","label":"Contact Id","doFind":false,"isExactMatch":true,"doCreate":false}],"linkToEntityName":"Case","linkToEntityField":"ContactId"}];
+		
 		embedded_svc.init(
 			'https://ott-de--stage.my.salesforce.com',
 			'https://stage-ott-de.cs100.force.com',
