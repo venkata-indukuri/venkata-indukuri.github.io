@@ -50,16 +50,17 @@
 		embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case","showOnCreate":true,"saveToTranscript":"CaseId","entityFieldMaps":[{"fieldName":"Origin","label":"Origin","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Subject","label":"Subject","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Logged_In_Status__c","label":"Logged In","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Type","label":"Case Type","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Profile_ID__c","label":"Profile Id","doFind":false,"isExactMatch":false,"doCreate":true}]},{"entityName":"Contact","showOnCreate":true,"saveToTranscript":"ContactId","entityFieldMaps":[{"fieldName":"Contact_Id__c","label":"Contact Id","doFind":true,"isExactMatch":true,"doCreate":false}],"linkToEntityName":"Case","linkToEntityField":"ContactId"}];
 
 
+
 		embedded_svc.init(
-			'https://nowtv--venkat3.my.salesforce.com',
-			'https://venkat3-nowtv.cs80.force.com',
+			'https://nowtv--venkat.my.salesforce.com',
+			'https://venkat-nowtv.cs81.force.com',
 			gslbBaseURL,
-			'00D250000007ClG',
+			'00D26000000GCZd',
 			'Snap_in',
 			{
 				baseLiveAgentContentURL: 'https://c.la1-c1cs-lo2.salesforceliveagent.com/content',
 				deploymentId: '572G00000004EEz',
-				buttonId: '5734I000000L4zx',
+				buttonId: '573G00000004ERh',
 				baseLiveAgentURL: 'https://d.la1-c1cs-lo2.salesforceliveagent.com/chat',
 				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1p000000KyjaEAC_1602664f31e',
 				isOfflineSupportEnabled: false
@@ -69,7 +70,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://nowtv--venkat3.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://nowtv--venkat.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
