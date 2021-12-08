@@ -1,6 +1,6 @@
 <html>
 <body>
-<style type='text/css'>
+	<style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
 		background-color: #005290;
 		font-family: "Arial", sans-serif;
@@ -36,16 +36,16 @@
 
 		embedded_svc.init(
 			'https://ott-summer--quality.my.salesforce.com',
-			'https://quality-ott-summer.cs122.force.com',
+			'https://quality-ott-summer.cs122.force.com/cddr',
 			gslbBaseURL,
 			'00D3H0000008ooc',
-			'Summer_Test',
+			'Help_Test_Q',
 			{
 				baseLiveAgentContentURL: 'https://c.la1-c1cs-lo2.salesforceliveagent.com/content',
-				deploymentId: '5723H000000008P',
-				buttonId: '5733H00000000KL',
+				deploymentId: '5723H000000008U',
+				buttonId: '5733H00000000KQ',
 				baseLiveAgentURL: 'https://d.la1-c1cs-lo2.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3H0000004COhUAM_17d9a2bb854',
+				eswLiveAgentDevName: 'Help_Test_Q',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -61,5 +61,6 @@
 	} else {
 		initESW('https://service.force.com');
 	}
-</script></body>
+</script>
+</body>
 </html>
