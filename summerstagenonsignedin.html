@@ -37,7 +37,7 @@
 {"label":"Origin", "value":"LiveAgent", "transcriptFields":[], "displayToAgent":true, "name":"Origin"}, 
 {"label":"Brand", "value":"Sky ShowTime", "transcriptFields":[], "displayToAgent":true, "name":"Brand__c"}, 
 {"label":"Subject", "value":"default", "transcriptFields":[], "displayToAgent":true, "name":"Subject"}, 
-{"label":"Territory", "value”:”nl”, "transcriptFields":[], "displayToAgent":true, "name":"Territory__c"}, 
+{"label":"Territory", "value":"nl", "transcriptFields":[], "displayToAgent":true, "name":"Territory__c"}, 
 {"label":"Customer Case Classification", "value":"I need help", "transcriptFields":[], "displayToAgent":true, "name":"Customer_Case_Classification__c"}, 
 {"label":"Customer Case Service Type", "value":"TV", "transcriptFields":[], "displayToAgent":true, "name":"Customer_Case_Service_Type__c"}, 
 {"label":"Last Article Viewed", "value": "", "transcriptFields":[], "displayToAgent":true, "name":"Last_Article_Viewed__c"}, 
@@ -45,13 +45,13 @@
 {"label":"Case Type", "value":"Feedback", "transcriptFields":[], "displayToAgent":true, "name":"Type"}, 
 {"label":"Marketing Cloud Visitor ID", "value":"MCMID%7C13725479062955915307800481863251061703", "transcriptFields":["MarketingCloudVisitorID__c"], "displayToAgent":true, "name":"MarketingCloudVisitorID__c"}, 
 {"label":"Contact Id", "value":"", "transcriptFields":[], "displayToAgent":true, "name":"Id"}, 
-{"label":"Page URL", "value":"https://www.showtime.com/help", "transcriptFields":[], "displayToAgent":false, "name":"pageURL"}, {"label":"Language Code", "value”:”nl”, "transcriptFields":["Language_Code__c"], "displayToAgent":true },{"label":"Case Record Type","value":"0127a000001dwthAAA","transcriptFields":[],"displayToAgent":true,"name":"Case Record Type"}];
+{"label":"Page URL", "value":"https://www.showtime.com/help", "transcriptFields":[], "displayToAgent":false, "name":"pageURL"}, {"label":"Language Code", "value”:”nl”, "transcriptFields":["Language_Code__c"], "displayToAgent":true },
+{"label":"Case Record Type","value":"0127a000001dwthAAA","transcriptFields":[],"displayToAgent":true,"name":"Case Record Type"}];
 
 
 
 
 embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case", "showOnCreate":true, "saveToTranscript":"CaseId", "entityFieldMaps":[{"fieldName":"Origin", "label":"Origin", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"ContactId", "label":"Contact Id", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Brand__c", "label":"Brand", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Subject", "label":"Subject", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Territory__c", "label":"Territory", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Customer_Case_Classification__c", "label":"Customer Case Classification", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Customer_Case_Service_Type__c", "label":"Customer Case Service Type", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Last_Article_Viewed__c", "label":"Last Article Viewed", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Logged_In_Status__c", "label":"Logged In", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Type", "label":"Case Type", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"Language_Code__c", "label":"Language Code", "doFind":false, "isExactMatch":false, "doCreate":true }, {"fieldName":"RecordTypeId","label":"Case Record Type","doFind":false,"isExactMatch":false,"doCreate":true} ] }, {"entityName":"Contact", "showOnCreate":true, "saveToTranscript":"ContactId", "entityFieldMaps":[{"fieldName":"Id", "label":"Contact Id", "doFind":true, "isExactMatch":true, "doCreate":false } ], "linkToEntityName":"Case", "linkToEntityField":"ContactId"} ];
-   
 		embedded_svc.init(
 			'https://ott-summer--stage.my.salesforce.com',
 			'https://stage-ott-summer.cs189.force.com',
