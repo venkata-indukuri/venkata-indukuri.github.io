@@ -34,15 +34,7 @@
 
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
-		embedded_svc.settings.extraPrechatFormDetails =
-[
-    {
-        "label": "Brand",
-        "value": "",
-        "displayToAgent": true,
-        "transcriptFields": [],
-        "name": "Brand__c"
-    },
+		embedded_svc.settings.extraPrechatFormDetails = [
     {
         "label": "Origin",
         "value": "LiveAgent",
@@ -119,16 +111,8 @@
         "transcriptFields": [],
         "displayToAgent": true,
         "name": "Contract_Number__c"
-    },
-    {
-        "label": "Is Migrated Customer",
-	"value": true,
-        "transcriptFields": [
-            "Is_Migrated_Customer__c"
-        ],
-        "displayToAgent": true,
-        "name": "Is_Migrated_Customer__c"
     }
+    
 ];
 		
 embedded_svc.settings.extraPrechatInfo =
@@ -138,13 +122,6 @@ embedded_svc.settings.extraPrechatInfo =
         "showOnCreate": true,
         "saveToTranscript": "CaseId",
         "entityFieldMaps": [
-            {
-                "fieldName": "Brand__c",
-                "label": "Brand",
-                "doFind": false,
-                "isExactMatch": false,
-                "doCreate": true
-            },
             {
                 "fieldName": "Origin",
                 "label": "Origin",
@@ -176,13 +153,6 @@ embedded_svc.settings.extraPrechatInfo =
             {
                 "fieldName": "Customer_Case_Service_Type__c",
                 "label": "Customer Case Service Type",
-                "doFind": false,
-                "isExactMatch": false,
-                "doCreate": true
-            },
-            {
-                "fieldName": "Last_Article_Viewed__c",
-                "label": "Last Article Viewed",
                 "doFind": false,
                 "isExactMatch": false,
                 "doCreate": true
@@ -221,14 +191,8 @@ embedded_svc.settings.extraPrechatInfo =
                 "doFind": false,
                 "isExactMatch": false,
                 "doCreate": true
-            },
-            {
-                "fieldName": "Is_Migrated_Customer__c",
-                "label": "Is Migrated Customer",
-                "doFind": false,
-                "isExactMatch": false,
-                "doCreate": true
             }
+            
         ]
     }
 ];
