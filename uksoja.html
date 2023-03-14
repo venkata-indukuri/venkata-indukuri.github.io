@@ -1,6 +1,12 @@
+<!DOCTYPE html>
 <html>
-<boody>
-   <style type='text/css'>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+	<style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
 		background-color: #653796;
 		font-family: "Salesforce Sans", sans-serif;
@@ -42,6 +48,7 @@
 
 embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case","showOnCreate":true,"saveToTranscript":"CaseId","entityFieldMaps":[{"fieldName":"Origin","label":"Origin","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Subject","label":"Subject","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Logged_In_Status__c","label":"Logged In Status","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Type","label":"Case Type","doFind":false,"isExactMatch":false,"doCreate":true},{"fieldName":"Profile_ID__c","label":"Profile Id","doFind":false,"isExactMatch":false,"doCreate":true}]},{"entityName":"Contact","showOnCreate":true,"saveToTranscript":"ContactId","entityFieldMaps":[{"fieldName":"Contact_Id__c","label":"Contact Id","doFind":true,"isExactMatch":true,"doCreate":false}],"linkToEntityName":"Case","linkToEntityField":"ContactId"}];
 
+		
 		embedded_svc.init(
 			'https://nowtv--soja1.sandbox.my.salesforce.com',
 			'https://nowtv--soja1.sandbox.my.salesforce-sites.com/',
@@ -51,7 +58,7 @@ embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case","showOnCreate":tr
 			{
 				baseLiveAgentContentURL: 'https://c.la1-c1cs-lo2.salesforceliveagent.com/content',
 				deploymentId: '572G00000004EEz',
-				buttonId: '57324000000fxSL',
+				buttonId: '573G00000004EEu',
 				baseLiveAgentURL: 'https://d.la1-c1cs-lo2.salesforceliveagent.com/chat',
 				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1p000000KyjaEAC_1602664f31e',
 				isOfflineSupportEnabled: false
@@ -69,5 +76,6 @@ embedded_svc.settings.extraPrechatInfo = [{"entityName":"Case","showOnCreate":tr
 		initESW('https://service.force.com');
 	}
 </script>
+
 </body>
 </html>
