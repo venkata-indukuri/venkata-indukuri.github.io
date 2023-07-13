@@ -60,7 +60,7 @@
     },
     {
         "label": "Subject",
-        "value": "CRM team test subject",
+        "value": "CRM team test git",
         "displayToAgent": true,
         "transcriptFields": [],
         "name": "Subject"
@@ -71,6 +71,13 @@
         "displayToAgent": true,
         "transcriptFields": [],
         "name": "Territory__c"
+    },
+    {
+        "label": "Language Code",
+        "value": "at",
+        "displayToAgent": true,
+        "transcriptFields": [],
+        "name": "Language_Code__c"
     },
     {
         "label": "Customer Case Classification",
@@ -88,7 +95,7 @@
     },
     {
         "label": "Last Article Viewed",
-        "value": "Der Sky X Traumpass",
+        "value": null,
         "displayToAgent": true,
         "transcriptFields": [],
         "name": "Last_Article_Viewed__c"
@@ -120,10 +127,18 @@
         "value": "https://skyx.sky.at/hilfe/in-kontakt-treten/verfgbare-gerte-streaming-box/gertebersicht-fr-sky-x",
         "displayToAgent": true,
         "transcriptFields": []
+    },
+    {
+        "label": "Description",
+        "value": "test",
+        "transcriptFields": [],
+        "displayToAgent": true,
+        "name": "Description"
     }
 ];
-
-		embedded_svc.settings.extraPrechatInfo = [
+		
+		
+embedded_svc.settings.extraPrechatInfo = [
     {
         "entityName": "Case",
         "showOnCreate": true,
@@ -191,11 +206,24 @@
                 "doFind": false,
                 "isExactMatch": false,
                 "doCreate": true
+            },
+            {
+                "fieldName": "Language_Code__c",
+                "label": "Language Code",
+                "doFind": false,
+                "isExactMatch": false,
+                "doCreate": true
+            },
+            {
+                "fieldName": "Description",
+                "label": "Description",
+                "doFind": false,
+                "isExactMatch": false,
+                "doCreate": true
             }
         ]
     }
 ];
-
 		
 		embedded_svc.init(
 			'https://ott-at.my.salesforce.com',
