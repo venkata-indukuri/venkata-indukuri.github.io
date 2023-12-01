@@ -66,7 +66,15 @@ embedded_svc.settings.extraPrechatFormDetails = [
     },
     {
         "label": "Territory",
-        "value": "de",
+        "value": "it",
+        "entityMaps": [],
+        "transcriptFields": [],
+        "displayToAgent": true,
+        "doKnowledgeSearch": false
+    },
+    {
+        "label": "Language Code",
+        "value": "it",
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -114,7 +122,7 @@ embedded_svc.settings.extraPrechatFormDetails = [
     },
     {
         "label": "Marketing Cloud Visitor ID",
-        "value": "MCMID|67856132302563963973123622557091725683",
+        "value": "MCMID|61859690636309758649211244647460210612",
         "transcriptFields": [
             "MarketingCloudVisitorID__c"
         ],
@@ -130,9 +138,16 @@ embedded_svc.settings.extraPrechatFormDetails = [
     {
         "label": "Page URL",
         "name": "pageURL",
-        "value": "https://www.wowtv.de/hilfe",
+        "value": "https://c3.nowtv.it/assistenza",
         "transcriptFields": [],
         "displayToAgent": false
+    },
+    {
+        "label": "Customer Tracking ID",
+        "value": null,
+        "transcriptFields": [],
+        "displayToAgent": true,
+        "name": "Customer_Tracking_ID__c"
     }
 ];
 
@@ -206,8 +221,22 @@ embedded_svc.settings.extraPrechatFormDetails = [
                 "doCreate": true
             },
             {
+                "fieldName": "Language_Code__c",
+                "label": "Language Code",
+                "doFind": false,
+                "isExactMatch": false,
+                "doCreate": true
+            },
+            {
                 "fieldName": "Type",
                 "label": "Case Type",
+                "doFind": false,
+                "isExactMatch": false,
+                "doCreate": true
+            },
+            {
+                "fieldName": "Customer_Tracking_ID__c",
+                "label": "Customer Tracking ID",
                 "doFind": false,
                 "isExactMatch": false,
                 "doCreate": true
