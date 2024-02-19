@@ -18,7 +18,7 @@
 <script type='text/javascript'>
 	var initESW = function(gslbBaseURL) {
 		embedded_svc.settings.displayHelpButton = true; //Or false
-		embedded_svc.settings.language = 'en-US'; //For example, enter 'en' or 'en-US'
+		embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
 
 		//embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
 		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
@@ -72,6 +72,15 @@
         "displayToAgent": true,
         "doKnowledgeSearch": false,
         "name": "Territory__c"
+    },
+    {
+        "label": "Language Code",
+        "value": "gb",
+        "entityMaps": [],
+        "transcriptFields": [],
+        "displayToAgent": true,
+        "doKnowledgeSearch": false,
+        "name": "Language_Code__c"
     },
     {
         "label": "Customer Case Classification",
@@ -130,7 +139,7 @@
     {
         "label": "Contact Id",
         "name": "Id",
-        "value": "0030C00000bpTzqQAE",
+        "value": "0031p00001khA8sAAE",
         "transcriptFields": [],
         "displayToAgent": true
     },
@@ -220,6 +229,13 @@ embedded_svc.settings.extraPrechatInfo = [
                 "doCreate": true
             },
             {
+                "fieldName": "Language_Code__c",
+                "label": "Language Code",
+                "doFind": false,
+                "isExactMatch": false,
+                "doCreate": true
+            },
+            {
                 "fieldName": "Type",
                 "label": "Case Type",
                 "doFind": false,
@@ -258,7 +274,7 @@ embedded_svc.settings.extraPrechatInfo = [
 			'https://nowtv--savdev.sandbox.my.salesforce-sites.com/',
 			gslbBaseURL,
 			'00D0C0000002XAw',
-			'LWC_Bot_Snap_in',
+			'Refund_bot_My_Account',
 			{
 				baseLiveAgentContentURL: 'https://c.la1-c1cs-lo2.salesforceliveagent.com/content',
 				deploymentId: '572G00000004EEz',
