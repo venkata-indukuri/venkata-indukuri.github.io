@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+	<script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			embeddedservice_bootstrap.init(
+				'00D5r0000004brS',
+				'MIAW_Embedded',
+				'https://ott-summer--venkat.sandbox.my.site.com/ESWMIAWEmbedded1713439860248',
+				{
+					scrt2URL: 'https://ott-summer--venkat.sandbox.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://ott-summer--venkat.sandbox.my.site.com/ESWMIAWEmbedded1713439860248/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+
+
+</body>
+</html>
