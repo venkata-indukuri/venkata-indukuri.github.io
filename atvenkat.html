@@ -224,6 +224,10 @@ embedded_svc.settings.extraPrechatInfo = [
     }
 ];
 
+		embedded_svc.addEventHandler("onChatTransferSuccessful", function(data) {
+    console.log("onChatTransferSuccessful event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+});
+
 		embedded_svc.init(
 			'https://ott-at--venkat.sandbox.my.salesforce.com',
 			'https://ott-at--venkat.sandbox.my.salesforce-sites.com/',
