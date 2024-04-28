@@ -1,27 +1,22 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Venkat's MIAW </title>
 </head>
 <body>
 
-	<script type='text/javascript'>
+	<h1> Welcome to Salesforce MIAW </h1>
+<script type='text/javascript'>
 	function initEmbeddedMessaging() {
 		try {
 			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
 
-			 window.addEventListener("onEmbeddedMessagingReady", () => {            
-	console.log( "Inside Prechat API!!" );
-	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({ 
- "casesubject" : "Messaging Test Subject"
- });
-});
-
 			embeddedservice_bootstrap.init(
-				'00D5r0000004brS',
-				'MIAW_Embedded',
-				'https://ott-summer--venkat.sandbox.my.site.com/ESWMIAWEmbedded1713439860248',
+				'00D1q0000004tqk',
+				'MIAW_Embedded_Service',
+				'https://ott-summer--miaw.sandbox.my.site.com/ESWMIAWEmbeddedService1714306137468',
 				{
-					scrt2URL: 'https://ott-summer--venkat.sandbox.my.salesforce-scrt.com'
+					scrt2URL: 'https://ott-summer--miaw.sandbox.my.salesforce-scrt.com'
 				}
 			);
 		} catch (err) {
@@ -29,8 +24,7 @@
 		}
 	};
 </script>
-<script type='text/javascript' src='https://ott-summer--venkat.sandbox.my.site.com/ESWMIAWEmbedded1713439860248/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
-
+<script type='text/javascript' src='https://ott-summer--miaw.sandbox.my.site.com/ESWMIAWEmbeddedService1714306137468/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
 </body>
 </html>
