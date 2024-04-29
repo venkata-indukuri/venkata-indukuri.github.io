@@ -6,27 +6,12 @@
 <body>
 
 	<h1> Welcome to Salesforce MIAW </h1>
-	<h1> Ven - Miaw</h1>
 <script type='text/javascript'>
 	function initEmbeddedMessaging() {
 		try {
 			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
 
-			embeddedservice_bootstrap.init(
-				'00D1q0000004tqk',
-				'MIAW_Embedded_Service',
-				'https://ott-summer--miaw.sandbox.my.site.com/ESWMIAWEmbeddedService1714306137468',
-				{
-					scrt2URL: 'https://ott-summer--miaw.sandbox.my.salesforce-scrt.com'
-				}
-			);
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-	};
-</script>
-<script type='text/javascript'>
-	window.addEventListener("onEmbeddedMessagingReady", () => {
+			window.addEventListener("onEmbeddedMessagingReady", () => {
             
 	console.log( "Inside Prechat API!!" );
 	const fetchBrowserName = () => {
@@ -87,7 +72,21 @@
 	} );
 	
 });
+
+			embeddedservice_bootstrap.init(
+				'00D1q0000004tqk',
+				'MIAW_Embedded_Service',
+				'https://ott-summer--miaw.sandbox.my.site.com/ESWMIAWEmbeddedService1714306137468',
+				{
+					scrt2URL: 'https://ott-summer--miaw.sandbox.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
 </script>
+
 <script type='text/javascript' src='https://ott-summer--miaw.sandbox.my.site.com/ESWMIAWEmbeddedService1714306137468/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
 </body>
