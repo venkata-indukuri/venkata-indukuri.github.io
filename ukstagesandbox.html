@@ -165,8 +165,41 @@
         ],
         "displayToAgent": false,
         "name": "Browser"
+    },
+    {
+        "label": "Location",
+        "value": "United States",
+        "transcriptFields": [
+            "Location"
+        ],
+        "displayToAgent": false,
+        "name": "Location"
+    },
+    {
+        "label": "Platform",
+        "value": "Linux",
+        "transcriptFields": [
+            "Platform"
+        ],
+        "displayToAgent": false,
+        "name": "Platform"
+    },
+    {
+        "label": "Visitor IP Address",
+        "value": "107.178.206.208",
+        "transcriptFields": [
+            "IpAddress"
+        ],
+        "displayToAgent": false,
+        "name": "IpAddress"
     }
+
 ];
+
+if(transcript.Location.contains('United States') && transcript.Platform.equals('Linux')
+                   && transcript.Browser.equals('Chrome 123.0.6312.4') && transcript.BrowserLanguage.equals('en-US')
+                   && (ipAddr.contains('107.178.') || ipAddr.contains('35.203.'))){
+
 
 embedded_svc.settings.extraPrechatInfo = [
     {
@@ -288,7 +321,7 @@ embedded_svc.settings.extraPrechatInfo = [
 			{
 				baseLiveAgentContentURL: 'https://c.la1-c1cs-ar3.salesforceliveagent.com/content',
 				deploymentId: '572G00000004EEz',
-				buttonId: '573G00000004EEu',
+				buttonId: '573G00000004ERh',
 				baseLiveAgentURL: 'https://d.la1-c1cs-ar3.salesforceliveagent.com/chat',
 				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1p000000KyjaEAC_1602664f31e',
 				isOfflineSupportEnabled: false
