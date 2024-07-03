@@ -54,10 +54,10 @@
 		
 	}
 
-	const BrowserName = fetchBrowserName();
+	const browserName = fetchBrowserName();
 	console.log(
 		'Browser Name is',
-		BrowserName
+		browserName
 	);
 	const browserLanguage = navigator.language;
 	console.log(
@@ -70,22 +70,20 @@
 		browserPlatform
 	);
 	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
-		"browserNameParam" : BrowserName,  	
-		"browserLanguageParam" : browserLanguage,  	
-		"browserPlatformParam" : browserPlatform,
-		"caseSubjectParam": "CRM test subject - billing issue",
-		"langCodeParam" : "nl_NL",
-		"terCodeParam" : "NL",
-		"caseClassificationParam" : "caseClassification value",
-		"caseServiceTypeParam" : "TV",
-		"caseTypeParam" : "Technical Problem",
-		"contactIdParam" : "",
-		"lastArticleViewedParam" : "https://www.stable-int.gottmax.com/ng/help/article/what-subscription-options-are-available",
-		"loggedInStatusParam" : "false",
-		"trackingIdParam" : "234729348204982",
-		"urlParam" : "https://www.stable-int.gottmax.com/ng/help/article/what-subscription-options-are-available"
-
-		
+		'browserNameParam' : browserName,  	
+		'browserLanguageParam' : browserLanguage,  	
+		'browserPlatformParam" : browserPlatform,
+		'caseSubjectParam': 'CRM test subject - billing issue',
+		'langCodeParam' : 'nl_NL',
+		'terCodeParam' : 'NL',
+		'caseClassificationParam' : 'caseClassification value',
+		'caseServiceTypeParam' : 'TV',
+		'caseTypeParam' : 'Technical Problem',
+		'contactIdParam' : '',
+		'lastArticleViewedParam' : 'https://www.stable-int.gottmax.com/ng/help/article/what-subscription-options-are-available',
+		'loggedInStatusParam' : 'false',
+		'trackingIdParam' : '234729348204982',
+		'urlParam' : 'https://www.stable-int.gottmax.com/ng/help/article/what-subscription-options-are-available'		
 	} );
 	
 });
