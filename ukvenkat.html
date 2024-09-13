@@ -268,30 +268,13 @@
         ]
     }
 ];
-		window.embedded_svc = window.embedded_svc || {};
-    
-    // Event listeners
-    function setupEventListeners() {
-        window.embedded_svc.addEventListener("onChatRequested", function() {
-            console.log("Chat Requested");
-        });
-
-        window.embedded_svc.addEventListener("onChatStarted", function() {
-            console.log("Chat Started");
-        });
-
-        window.embedded_svc.addEventListener("onMessageReceived", function(event) {
-            console.log("Message from Agent: ", event.message);
-        });
-
-        window.embedded_svc.addEventListener("onMessageSent", function(event) {
-            console.log("Message from User: ", event.message);
-        });
-
-        window.embedded_svc.addEventListener("onChatEnded", function() {
-            console.log("Chat Ended");
-        });
-    }
+		embedded_svc.addEventHandler("onChasitorMessage", function(data) {
+    console.log("onChasitorMessage event was fired.  Chasitor " + JSON.stringify(data));
+});
+ 
+embedded_svc.addEventHandler("onAgentMessage", function(data) {
+    console.log("onAgentMessage event was fired.  Agent Message " + JSON.stringify(data));
+});
 
 		
 		embedded_svc.init(
@@ -309,7 +292,6 @@
 				isOfflineSupportEnabled: false
 			}
 		);
-		setupEventListeners();  
 	};
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
