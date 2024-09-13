@@ -269,11 +269,13 @@
     }
 ];
 		embedded_svc.addEventHandler("onChasitorMessage", function(data) {
-    console.log("onChasitorMessage event was fired.  Chasitor " + JSON.stringify(data));
+    console.log("onChasitorMessage event was fired.  Chasitor>>>> " + JSON.stringify(data));
+			console.log("onChasitorMessage event was fired.  ChasitorData>>>> " + data.message);
 });
  
 embedded_svc.addEventHandler("onAgentMessage", function(data) {
-    console.log("onAgentMessage event was fired.  Agent Message " + JSON.stringify(data));
+    console.log("onAgentMessage event was fired.  Agent Message>>>> " + JSON.stringify(data));
+	console.log("onAgentMessage event was fired.  Agent Message>>>> " + data.message);
 });
 
 		
@@ -304,20 +306,7 @@ embedded_svc.addEventHandler("onAgentMessage", function(data) {
 		initESW('https://service.force.com');
 	}
 
-		// Example: Listen for when a message is sent
-        embedded_svc.addEventListener("onMessageSent", function(data) {
-		// Check if the message text includes "refund initiated"
-		 console.log('Message>>>' +data.message);
-            if (data.message && data.message.toLowerCase().includes("refund initiated")) {
-                // Trigger custom action/event when "refund initiated" is detected
-                console.log('MessageIf>>>' +data.message);
-            }
-        });
-
-        // Example: Listen for when a message is received
-        embedded_svc.addEventListener("onMessageReceived", function(data) {
-		console.log('MessagerReceived>>>' +data.message);
-        });
+		
 	 
 </script>
 </body>
