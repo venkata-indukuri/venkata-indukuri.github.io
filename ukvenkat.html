@@ -284,6 +284,17 @@
 				isOfflineSupportEnabled: false
 			}
 		);
+		  // Example: Listen for when a message is sent
+        embedded_svc.addEventListener("onMessageSent", function(data) {
+            sendChatEventToExternalSite(data, 'message-sent');
+        });
+
+        // Example: Listen for when a message is received
+        embedded_svc.addEventListener("onMessageReceived", function(data) {
+            sendChatEventToExternalSite(data, 'message-received');
+        });
+    };
+
 	};
 
 	if (!window.embedded_svc) {
@@ -296,6 +307,11 @@
 	} else {
 		initESW('https://service.force.com');
 	}
+
+	 // Example: Listen for the custom event in the browser
+    window.addEventListener("refundInitiated", function(event) {
+        alert("Refund process started. Chat data: " + JSON.stringify(event.detail));
+    });
 </script>
 </body>
 </html>
