@@ -268,7 +268,32 @@
         ]
     }
 ];
+		window.embedded_svc = window.embedded_svc || {};
+    
+    // Event listeners
+    function setupEventListeners() {
+        window.embedded_svc.addEventListener("onChatRequested", function() {
+            console.log("Chat Requested");
+        });
 
+        window.embedded_svc.addEventListener("onChatStarted", function() {
+            console.log("Chat Started");
+        });
+
+        window.embedded_svc.addEventListener("onMessageReceived", function(event) {
+            console.log("Message from Agent: ", event.message);
+        });
+
+        window.embedded_svc.addEventListener("onMessageSent", function(event) {
+            console.log("Message from User: ", event.message);
+        });
+
+        window.embedded_svc.addEventListener("onChatEnded", function() {
+            console.log("Chat Ended");
+        });
+    }
+
+		
 		embedded_svc.init(
 			'https://nowtv--venkat.sandbox.my.salesforce.com',
 			'https://nowtv--venkat.sandbox.my.salesforce-sites.com/',
@@ -284,7 +309,7 @@
 				isOfflineSupportEnabled: false
 			}
 		);
-		  
+		setupEventListeners();  
 	};
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
