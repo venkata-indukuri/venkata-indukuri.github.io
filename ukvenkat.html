@@ -286,12 +286,17 @@
 		);
 		  // Example: Listen for when a message is sent
         embedded_svc.addEventListener("onMessageSent", function(data) {
-            sendChatEventToExternalSite(data, 'message-sent');
+		// Check if the message text includes "refund initiated"
+		 console.log('Message>>>' +data.message);
+            if (data.message && data.message.toLowerCase().includes("refund initiated")) {
+                // Trigger custom action/event when "refund initiated" is detected
+                console.log('MessageIf>>>' +data.message);
+            }
         });
 
         // Example: Listen for when a message is received
         embedded_svc.addEventListener("onMessageReceived", function(data) {
-            sendChatEventToExternalSite(data, 'message-received');
+		console.log('MessagerReceived>>>' +data.message);
         });
     };
 
