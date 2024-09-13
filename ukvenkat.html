@@ -284,7 +284,20 @@
 				isOfflineSupportEnabled: false
 			}
 		);
-		  // Example: Listen for when a message is sent
+		  
+
+	if (!window.embedded_svc) {
+		var s = document.createElement('script');
+		s.setAttribute('src', 'https://nowtv--venkat.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.onload = function() {
+			initESW(null);
+		};
+		document.body.appendChild(s);
+	} else {
+		initESW('https://service.force.com');
+	}
+
+		// Example: Listen for when a message is sent
         embedded_svc.addEventListener("onMessageSent", function(data) {
 		// Check if the message text includes "refund initiated"
 		 console.log('Message>>>' +data.message);
@@ -299,24 +312,7 @@
 		console.log('MessagerReceived>>>' +data.message);
         });
     };
-
-	};
-
-	if (!window.embedded_svc) {
-		var s = document.createElement('script');
-		s.setAttribute('src', 'https://nowtv--venkat.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
-		s.onload = function() {
-			initESW(null);
-		};
-		document.body.appendChild(s);
-	} else {
-		initESW('https://service.force.com');
-	}
-
-	 // Example: Listen for the custom event in the browser
-    window.addEventListener("refundInitiated", function(event) {
-        alert("Refund process started. Chat data: " + JSON.stringify(event.detail));
-    });
+	 
 </script>
 </body>
 </html>
