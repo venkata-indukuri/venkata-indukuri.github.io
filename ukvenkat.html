@@ -270,12 +270,12 @@
 ];
 		embedded_svc.addEventHandler("onChasitorMessage", function(data) {
     console.log("onChasitorMessage event was fired.  Chasitor>>>> " + JSON.stringify(data));
-			console.log("onChasitorMessage event was fired.  ChasitorData>>>> " + data.message);
+			console.log("onChasitorMessage event was fired.  ChasitorData>>>> " + JSON.stringify(data.message));
 });
  
 embedded_svc.addEventHandler("onAgentMessage", function(data) {
     console.log("onAgentMessage event was fired.  Agent Message>>>> " + JSON.stringify(data));
-	console.log("onAgentMessage event was fired.  Agent Message>>>> " + data.message);
+	console.log("onAgentMessage event was fired.  Agent Message>>>> " + JSON.stringify(data.message));
 });
 
 		
