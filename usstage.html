@@ -264,18 +264,17 @@ embedded_svc.settings.extraPrechatInfo = [
     }
 ];
 
-
 		embedded_svc.init(
-			'https://ott-nbcu--stage.sandbox.my.salesforce.com',
-			'https://ott-nbcu--stage.sandbox.my.salesforce-sites.com/',
+			'https://ott-nbcu--venkat.sandbox.my.salesforce.com',
+			'https://ott-nbcu--venkat.sandbox.my.salesforce-sites.com/',
 			gslbBaseURL,
-			'00DRK000006T9Ha',
+			'00DWr000002z3mD',
 			'Snap_in',
 			{
-				baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-lywfpd.salesforceliveagent.com/content',
+				baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-8tgtt5.salesforceliveagent.com/content',
 				deploymentId: '5723i000000LjBv',
 				buttonId: '5733i000000LkdJ',
-				baseLiveAgentURL: 'https://d.la12s-core1.sfdc-lywfpd.salesforceliveagent.com/chat',
+				baseLiveAgentURL: 'https://d.la12s-core1.sfdc-8tgtt5.salesforceliveagent.com/chat',
 				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I3i000000CrRYEA0_16e5f5012f3',
 				isOfflineSupportEnabled: false
 			}
@@ -284,7 +283,7 @@ embedded_svc.settings.extraPrechatInfo = [
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-nbcu--stage.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-nbcu--venkat.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
