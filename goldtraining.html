@@ -18,7 +18,7 @@
 <script type='text/javascript'>
 	var initESW = function(gslbBaseURL) {
 		embedded_svc.settings.displayHelpButton = true; //Or false
-		embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+		embedded_svc.settings.language = 'de'; //For example, enter 'en' or 'en-US'
 
 		//embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
 		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
@@ -66,7 +66,7 @@
     },
     {
         "label": "Territory",
-        "value": "gb",
+        "value": "DE",
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -75,7 +75,7 @@
     },
     {
         "label": "Language Code",
-        "value": "en",
+        "value": "de",
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -102,7 +102,7 @@
     },
     {
         "label": "Last Article Viewed",
-        "value": "Download shows, movies or sports to watch offline",
+        "value": null,
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -129,7 +129,7 @@
     },
     {
         "label": "Marketing Cloud Visitor ID",
-        "value": "MCMID|65722250112724253710271749955149323639",
+        "value": "MCMID|39800952837728219182471415745249497261",
         "transcriptFields": [
             "MarketingCloudVisitorID__c"
         ],
@@ -139,26 +139,28 @@
     {
         "label": "Contact Id",
         "name": "Id",
+	"value": "",
         "transcriptFields": [],
         "displayToAgent": true
     },
     {
         "label": "Page URL",
         "name": "pageURL",
-        "value": "https://help.nowtv.com/",
+        "value": "https://www.stable-int.wowtv.de/hilfe",
         "transcriptFields": [],
         "displayToAgent": false
     },
     {
         "label": "Customer Tracking ID",
-        "value": null,
+        "value": "DE+JkSk9JZyZqstXBnCmZw7XUtcMPrtgugoMCi/pMT4=",
         "transcriptFields": [],
         "displayToAgent": true,
         "name": "Customer_Tracking_ID__c"
     }
 ];
 
-embedded_svc.settings.extraPrechatInfo = [
+
+	embedded_svc.settings.extraPrechatInfo = [
     {
         "entityName": "Case",
         "showOnCreate": true,
@@ -267,6 +269,7 @@ embedded_svc.settings.extraPrechatInfo = [
         ]
     }
 ];
+
 
 		embedded_svc.init(
 			'https://now-eu--training.sandbox.my.salesforce.com',
