@@ -87,11 +87,7 @@
     }
 }
 
-	window.onload = async function() {
-        const BrowserIpAddress = await getIPAddress();
-        console.log('Stored IP address:', BrowserIpAddress);
-    };
-	console.log('BrowserIpAddress>>>>' +BrowserIpAddress);			
+		
 	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
 		'Browser_Name' : browserName,  	
 		'Browser_Language' : browserLanguage,  	
