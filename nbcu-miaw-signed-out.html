@@ -81,7 +81,7 @@
     }
 }
 
-	getIPAddress();			
+	const BrowserIpAddress = getIPAddress();			
 	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
 		'Browser_Name' : browserName,  	
 		'Browser_Language' : browserLanguage,  	
@@ -97,7 +97,8 @@
 		'Logged_In_Status' : 'false',
 		'Customer_Tracking_ID' : '234729348204982',
 		'Page_URL' : 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
-		'MarketingCloud_Visitor_ID' : '234j3453lk2343'
+		'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+		'Browser_Ip_Address' : BrowserIpAddress
 	} );
 	
 });
