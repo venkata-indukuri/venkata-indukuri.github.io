@@ -70,12 +70,6 @@
 		browserPlatform
 	);
 
-	window.onload = async function() {
-        const BrowserIpAddress = await getIPAddress();
-        console.log('Stored IP address:', BrowserIpAddress);
-	console.log('BrowserIpAddress>>>>' +BrowserIpAddress);
-    };
-
 	async function getIPAddress() {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
@@ -87,8 +81,12 @@
     }
 }
 
-		
-	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
+	window.onload = async function() {
+        const BrowserIpAddress = await getIPAddress();
+        console.log('Stored IP address:', BrowserIpAddress);
+	console.log('BrowserIpAddress>>>>' +BrowserIpAddress);	
+	
+		embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
 		'Browser_Name' : browserName,  	
 		'Browser_Language' : browserLanguage,  	
 		'Browser_Platform' : browserPlatform,
@@ -106,7 +104,7 @@
 		'MarketingCloud_Visitor_ID' : '234j3453lk2343',
 		'Browser_Ip_Address' : BrowserIpAddress
 	} );
-	
+	};
 });
 
 			embeddedservice_bootstrap.init(
