@@ -18,7 +18,7 @@
 <script type='text/javascript'>
 	var initESW = function(gslbBaseURL) {
 		embedded_svc.settings.displayHelpButton = true; //Or false
-		embedded_svc.settings.language = 'sw'; //For example, enter 'en' or 'en-US'
+		embedded_svc.settings.language = 'pt_PT'; //For example, enter 'en' or 'en-US'
 
 		//embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
 		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
@@ -66,7 +66,7 @@
     },
     {
         "label": "Territory",
-        "value": "tz",
+        "value": "AO",
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -135,13 +135,13 @@
     {
         "label": "Page URL",
         "name": "pageURL",
-        "value": "https://www.stable-int.gottmax.com/ng/help/get-in-touch/getting-started/intro-to-showmax",
+        "value": "https://www.stable-int.gottmax.com/ao/help/get-in-touch/getting-started/intro-to-showmax",
         "transcriptFields": [],
         "displayToAgent": false
     },
     {
         "label": "Language Code",
-        "value": "sw",
+        "value": "pt_PT",
         "transcriptFields": [
             "Language_Code__c"
         ],
@@ -265,18 +265,19 @@
         ]
     }
 ];
+
 		embedded_svc.init(
-			'https://ott-earth--rafa.sandbox.my.salesforce.com',
-			'https://ott-earth--rafa.sandbox.my.salesforce-sites.com/',
+			'https://ott-earth--stage.sandbox.my.salesforce.com',
+			'https://ott-earth--stage.sandbox.my.salesforce-sites.com/',
 			gslbBaseURL,
-			'00DTA000006PWCX',
-			'Snap_in',
+			'00DQz000001hgBV',
+			'Signed_out',
 			{
 				baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-5pakla.salesforceliveagent.com/content',
 				deploymentId: '5728d000000x97o',
 				buttonId: '5738d000000xBiz',
 				baseLiveAgentURL: 'https://d.la12s-core1.sfdc-5pakla.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I8d000000sfP6EAI_187c7733d3b',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I8d000000sflmEAA_189b1635db1',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -284,7 +285,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-earth--rafa.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-earth--stage.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
@@ -293,6 +294,5 @@
 		initESW('https://service.force.com');
 	}
 </script>
-
 </body>
 </html>
