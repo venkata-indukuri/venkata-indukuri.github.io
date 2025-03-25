@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>EU Stage</title>
+	<title></title>
 </head>
 <body>
 <style type='text/css'>
@@ -66,7 +66,7 @@
     },
     {
         "label": "Territory",
-        "value": "IT",
+        "value": "it",
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -75,7 +75,7 @@
     },
     {
         "label": "Language Code",
-        "value": "IT",
+        "value": "it",
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -271,16 +271,16 @@
 ];
 
 		embedded_svc.init(
-			'https://now-eu--stage.sandbox.my.salesforce.com',
-			'https://now-eu--stage.sandbox.my.salesforce-sites.com/',
+			'https://now-eu.my.salesforce.com',
+			'https://now-eu.my.salesforce-sites.com/',
 			gslbBaseURL,
-			'00DS90000043C3k',
+			'00DWS000001IP5p',
 			'Help_Site',
 			{
-				baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-5pakla.salesforceliveagent.com/content',
+				baseLiveAgentContentURL: 'https://c.la11-core1.sfdc-5pakla.salesforceliveagent.com/content',
 				deploymentId: '572WS000001IFPp',
 				buttonId: '573WS000000ByFN',
-				baseLiveAgentURL: 'https://d.la12s-core1.sfdc-5pakla.salesforceliveagent.com/chat',
+				baseLiveAgentURL: 'https://d.la11-core1.sfdc-5pakla.salesforceliveagent.com/chat',
 				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04IWS0000001rzx2AA_192f6d7fee2',
 				isOfflineSupportEnabled: false
 			}
@@ -289,7 +289,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://now-eu--stage.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://now-eu.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
