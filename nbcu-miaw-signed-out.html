@@ -118,6 +118,19 @@
 			console.error('Error loading Embedded Messaging: ', err);
 		}
 	};
+window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
+  console.log("Received the onEmbeddedMessagingConversationStarted event…");
+  console.log("Event detail: ", event.detail);
+
+});
+
+window.addEventListener("onEmbeddedMessagingButtonClicked", (event) => {
+  console.log("Received the onEmbeddedMessagingButtonClicked event…");
+  console.log("Event detail: ", event.detail);
+
+});
+
+	
 </script>
 <script type='text/javascript' src='https://ott-nbcu--miaw.sandbox.my.site.com/ESWHelpMessaging1738150210771/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
