@@ -14,8 +14,6 @@
 	function initEmbeddedMessaging() {
 		try {
 			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
-
-			window.addEventListener("onEmbeddedMessagingReady", async () => {
             
 	console.log( "Inside Prechat API!!" );
 	const fetchBrowserName = () => {
@@ -107,7 +105,6 @@
 		'Browser_Ip_Address' : browserIpAddress,
 		'Get_In_Touch' : 'False'
 	} );
-	});
 
 			embeddedservice_bootstrap.init(
 				'00DVa000002h5WL',
