@@ -101,8 +101,9 @@
     registerEventListeners();
 
     // Initialize embedded messaging when the script is loaded
-    window.onload = initEmbeddedMessaging;
-</script>
+window.onload = async function () {
+    await initEmbeddedMessaging();
+};</script>
 <script type='text/javascript' src='https://ott-nbcu--miaw.sandbox.my.site.com/ESWHelpMessaging1738150210771/assets/js/bootstrap.min.js'></script>
 
 </body>
