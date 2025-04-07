@@ -11,35 +11,46 @@
 	<center>
 <img src="https://imageservice.disco.peacocktv.com/uuid/35569ad4-a9a9-3567-b70a-47b03fabd9ff/TITLE_ART_3_4/414/552?language=eng&amp;territory=US&amp;proposition=NBCUOTT&amp;version=136e3f82-c68a-3301-b648-7801705fb9e7" alt="The Wild MIAW" loading="eager" class="tilestyles__Image-sc-e42v4u-3 jVBkcG">	</center>
 <script type='text/javascript'>
-    // Function to register event listeners
-    function registerEventListeners() {
-        window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
-            console.log("Received the onEmbeddedMessagingConversationStarted event…");
-            console.log("Event detail: ", event.detail);
-        });
-
-        window.addEventListener("onEmbeddedMessagingButtonClicked", (event) => {
-            console.log("Received the onEmbeddedMessagingButtonClicked event…");
-            console.log("Event detail: ", event.detail);
-        });
-    }
-
-    // Function to initialize embedded messaging
-    async function initEmbeddedMessaging() {
+    function initEmbeddedMessaging() {
         try {
-            embeddedservice_bootstrap.settings.language = 'en_US'; // Set language
-
-            console.log("Inside Prechat API!!");
-
+            embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+            
+            console.log( "Inside Prechat API!!" );
             const fetchBrowserName = () => {
+
                 let browserInfo = navigator.userAgent;
-                if (browserInfo.includes('Opera') || browserInfo.includes('Opr')) return 'Opera';
-                if (browserInfo.includes('Edg')) return 'Edge';
-                if (browserInfo.includes('Chrome')) return 'Chrome';
-                if (browserInfo.includes('Safari')) return 'Safari';
-                if (browserInfo.includes('Firefox')) return 'Firefox';
-                return 'unknown';
-            };
+                let browserName;
+                if ( 
+                    browserInfo.includes('Opera') || 
+                    browserInfo.includes('Opr') 
+                ) {
+                
+                    browserName = 'Opera';
+                    
+                } else if ( browserInfo.includes( 'Edg' ) ) {
+                
+                    browserName = 'Edge';
+                    
+                } else if (browserInfo.includes( 'Chrome' ) ) {
+                
+                    browserName = 'Chrome';
+                    
+                } else if ( browserInfo.includes( 'Safari' ) ) {
+                
+                    browserName = 'Safari';
+                    
+                } else if ( browserInfo.includes( 'Firefox' ) ) {
+                
+                    browserName= 'Firefox';
+                    
+                } else {
+                
+                    browserName = 'unknown';
+                    
+                }
+                return browserName;
+                
+            }
 
             const fetchIpAddress = async () => {
                 try {
@@ -50,40 +61,50 @@
                     console.error('Error fetching IP address:', error);
                     return 'unknown';
                 }
-            };
+            }
 
             const browserName = fetchBrowserName();
+            console.log(
+                'Browser Name is >>>>',
+                browserName
+            );
             const browserLanguage = navigator.language;
+            console.log(
+                'Browser Language is >>>>',
+                browserLanguage
+            );
             const browserPlatform = navigator.platform;
+            console.log(
+                'Browser Platform is >>>>',
+                browserPlatform
+            );
+
             const browserIpAddress = await fetchIpAddress();
-
-            console.log('Browser Name:', browserName);
-            console.log('Browser Language:', browserLanguage);
-            console.log('Browser Platform:', browserPlatform);
-            console.log('Browser IP Address:', browserIpAddress);
-
-            // Set hidden prechat fields
-            embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-                'Browser_Name': browserName,
-                'Browser_Language': browserLanguage,
-                'Browser_Platform': browserPlatform,
+            console.log(
+                'Browser IP Address is >>>>',
+                browserIpAddress
+            );
+            
+            embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
+                'Browser_Name' : browserName,  	
+                'Browser_Language' : browserLanguage,  	
+                'Browser_Platform' : browserPlatform,
                 'Case_Subject': 'CRM test subject - billing issue from MIAW',
-                'Language_Code': 'en',
-                'Territory_Code': 'us',
-                'Case_Classification': 'caseClassification value',
-                'Case_ServiceType': 'TV',
-                'Case_Type': 'Technical Problem',
-                'Contact_ID': '',
-                'Last_Article_Viewed': 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
-                'Logged_In_Status': 'false',
-                'Customer_Tracking_ID': '234729348204982',
-                'Page_URL': 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
-                'MarketingCloud_Visitor_ID': '234j3453lk2343',
-                'Browser_Ip_Address': browserIpAddress,
-                'Get_In_Touch': 'False'
-            });
+                'Language_Code' : 'en',
+                'Territory_Code' : 'us',
+                'Case_Classification' : 'caseClassification value',
+                'Case_ServiceType' : 'TV',
+                'Case_Type' : 'Technical Problem',
+                'Contact_ID' : '',
+                'Last_Article_Viewed' : 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
+                'Logged_In_Status' : 'false',
+                'Customer_Tracking_ID' : '234729348204982',
+                'Page_URL' : 'https://www.peacocktv.com/help/article/how-do-i-get-peacock',
+                'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+                'Browser_Ip_Address' : browserIpAddress,
+                'Get_In_Touch' : 'False'
+            } );
 
-            // Initialize embedded messaging
             embeddedservice_bootstrap.init(
                 '00DVa000002h5WL',
                 'Help_Messaging',
@@ -92,19 +113,18 @@
                     scrt2URL: 'https://ott-nbcu--miaw.sandbox.my.salesforce-scrt.com'
                 }
             );
+
+            // Add the event listener for onEmbeddedMessagingConversationStarted
+            window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
+                console.log("Received the onEmbeddedMessagingConversationStarted event…");
+                console.log("Event detail: ", event.detail);
+            });
         } catch (err) {
-            console.error('Error loading Embedded Messaging:', err);
+            console.error('Error loading Embedded Messaging: ', err);
         }
-    }
-
-    // Register event listeners immediately
-    registerEventListeners();
-
-    // Initialize embedded messaging when the script is loaded
-window.onload = async function () {
-    await initEmbeddedMessaging();
-};</script>
-<script type='text/javascript' src='https://ott-nbcu--miaw.sandbox.my.site.com/ESWHelpMessaging1738150210771/assets/js/bootstrap.min.js'></script>
+    };
+</script>
+<script type='text/javascript' src='https://ott-nbcu--miaw.sandbox.my.site.com/ESWHelpMessaging1738150210771/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
 </body>
 </html>
