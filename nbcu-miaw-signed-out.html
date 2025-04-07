@@ -74,13 +74,11 @@
                 }
             );
 
-            // Add the event listener after a delay to ensure initialization
-            setTimeout(() => {
-                window.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
-                    console.log("Received the onEmbeddedMessagingConversationStarted event…");
-                    console.log("Event detail: ", event.detail);
-                });
-            }, 1000); // Adjust the delay as needed
+            // Add the event listener using embeddedservice_bootstrap
+            embeddedservice_bootstrap.addEventListener("onEmbeddedMessagingConversationStarted", (event) => {
+                console.log("Received the onEmbeddedMessagingConversationStarted event…");
+                console.log("Event detail: ", event.detail);
+            });
         } catch (err) {
             console.error('Error loading Embedded Messaging: ', err);
         }
