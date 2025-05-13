@@ -267,17 +267,17 @@
 ];
 
 		embedded_svc.init(
-			'https://ott-earth--stage.sandbox.my.salesforce.com',
-			'https://ott-earth--stage.sandbox.my.salesforce-sites.com/',
+			'https://ott-earth--venkat.sandbox.my.salesforce.com',
+			'https://ott-earth--venkat.sandbox.my.salesforce-sites.com/',
 			gslbBaseURL,
-			'00DQz000001hgBV',
-			'Signed_out',
+			'00DPu0000068Zy1',
+			'Snap_in',
 			{
 				baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-5pakla.salesforceliveagent.com/content',
 				deploymentId: '5728d000000x97o',
-				buttonId: '5738d000000xBiz',
+				buttonId: '5738d000000x9Xs',
 				baseLiveAgentURL: 'https://d.la12s-core1.sfdc-5pakla.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I8d000000sflmEAA_189b1635db1',
+				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I8d000000sfP6EAI_187c7733d3b',
 				isOfflineSupportEnabled: false
 			}
 		);
@@ -285,7 +285,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-earth--stage.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-earth--venkat.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
