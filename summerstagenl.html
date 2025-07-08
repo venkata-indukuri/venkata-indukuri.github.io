@@ -146,6 +146,13 @@
         "transcriptFields": [],
         "displayToAgent": true,
         "name": "Customer_Tracking_ID__c"
+    },
+    {
+        "label": "Help Guid",
+        "value": "0ae33507-3144-4447-9197-290605cb665e",
+        "transcriptFields": [],
+        "displayToAgent": true,
+        "name": "Help_Guid__c"
     }
 ];
 
@@ -229,6 +236,13 @@ embedded_svc.settings.extraPrechatInfo = [
                 "fieldName": "Customer_Tracking_ID__c",
                 "label": "Customer Tracking ID",
                 "doFind": false,
+                "isExactMatch": false,
+                "doCreate": true
+            },
+	    {
+                "fieldName": "Help_Guid__c",
+                "label": "Help Guid",
+                "doFind": true,
                 "isExactMatch": false,
                 "doCreate": true
             }
