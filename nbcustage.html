@@ -272,10 +272,10 @@
 ];
 
 		embedded_svc.init(
-			'https://ott-nbcu--venkat.sandbox.my.salesforce.com',
-			'https://ott-nbcu--venkat.sandbox.my.salesforce-sites.com/',
+			'https://ott-nbcu--stage.sandbox.my.salesforce.com',
+			'https://ott-nbcu--stage.sandbox.my.salesforce-sites.com/',
 			gslbBaseURL,
-			'00DWF000008WAm1',
+			'00DWF0000077x49',
 			'Snap_in',
 			{
 				baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-8tgtt5.salesforceliveagent.com/content',
@@ -290,7 +290,7 @@
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://ott-nbcu--venkat.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ott-nbcu--stage.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
