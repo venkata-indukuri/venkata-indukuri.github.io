@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesforce CRM URL Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 40vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        .form-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 150px;
+            flex-shrink: 0;
+        }
+
+        label {
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        input[type="text"],
+        select {
+            padding: 8px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            background: white;
+            color: #333;
+            width: 100%;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: 2px solid #ffd700;
+        }
+
+        .url-display {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            word-break: break-all;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .url-content {
+            flex: 1;
+            word-break: break-all;
+        }
+
+        .url-variant {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .url-variant-label {
+            color: #ffd700;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .copy-btn-small {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn-small:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .category-link-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-link-content {
+            flex: 1;
+        }
+
+        .url-link {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .url-link:hover {
+            text-decoration: underline;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-generate {
+            background: #ffd700;
+            color: #333;
+        }
+
+        .btn-generate:hover {
+            background: #ffed4e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-copy:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .bottom-section {
+            height: 60vh;
+            background: #f5f5f5;
+            overflow: auto;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+            border: none;
+        }
+
+        .placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            font-size: 18px;
+        }
+
+        /* Stage URLs Inline Display */
+        #stageUrlsDisplay {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stage-url-inline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .stage-url-inline:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .stage-url-inline .url-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #ffd700;
+            white-space: nowrap;
+        }
+
+        .stage-url-inline .url-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .stage-url-inline .url-link:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .stage-url-inline .copy-btn-tiny {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            border: 1px solid #ffd700;
+            padding: 3px 8px;
+            font-size: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .stage-url-inline .copy-btn-tiny:hover {
+            background: #ffd700;
+            color: #333;
+        }
+
+        /* Environment Switcher Styles */
+        .env-switcher-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .env-switcher-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+
+
+        .btn-env-compare {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-env-compare:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-env-compare:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+
+
+        /* Split iframe view */
+        .split-iframe-container {
+            display: none;
+            height: 100%;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .split-iframe-container.active {
+            display: grid;
+        }
+
+        .iframe-panel {
+            position: relative;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .iframe-panel-header {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .iframe-panel iframe {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="container">
+            <h1>🔗 Salesforce CRM Help URL Generator</h1>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="environment">Environment:</label>
+                    <select id="environment" onchange="updateEnvironmentField();">
+                        <option value="stage">Stage</option>
+                        <option value="prod">Production</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="sandboxNameGroup" style="display: none;">
+                    <label for="sandboxName">Sandbox Name:</label>
+                    <input type="text" id="sandboxName" placeholder="Enter your sandbox name">
+                </div>
+
+                <div class="form-group">
+                    <label for="viewModelType">View Model Type:</label>
+                    <select id="viewModelType" onchange="updateDynamicFields(); updateUserTypeField();">
+                        <option value="base">Base</option>
+                        <option value="home">Home</option>
+                        <option value="article">Article</option>
+                        <option value="category">Category</option>
+                        <option value="get_in_touch">Get In Touch</option>
+                        <option value="complaints">Complaints</option>
+                        <option value="send_msg">Send Message</option>
+                        <option value="org_config_api">Org Config API</option>
+                        <option value="incidents">Incidents</option>
+                        <option value="bannermsg">Banner Message</option>
+                        <option value="user_profile">User Profile</option>
+                        <option value="sitemap">Sitemap</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="proposition">Proposition:</label>
+                    <select id="proposition" onchange="updateTerritories(); updateEnvironmentSwitcher();">
+                        <option value="nbcu">NBCU</option>
+                        <option value="gold">Gold</option>
+                        <option value="showtime">Showtime</option>
+                        <option value="showmax">Showmax</option>
+                        <option value="at">AT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="territoryCode">Territory Code:</label>
+                    <select id="territoryCode" onchange="updateLanguageCodes(); updateUserTypeField(); updateEnvironmentUrls(); updateEnvironmentSwitcher();">
+                        <option value="us">US</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="languageCode">Language Code:</label>
+                    <select id="languageCode" onchange="updateEnvironmentSwitcher();">
+                        <option value="en-US">en-US</option>
+                        <option value="es-US">es-US</option>
+                    </select>
+                </div>
+
+                <!-- Dynamic field for User Segmentation (US only) -->
+                <div class="form-group" id="userTypeGroup" style="display: none;">
+                    <label for="userType">User Segmentation:</label>
+                    <select id="userType">
+                        <option value="">All</option>
+                        <option value="free">Free</option>
+                        <option value="signed_out">Signed Out</option>
+                        <option value="premium">Premium</option>
+                        <option value="premium_plus">Premium Plus</option>
+                        <option value="select">Select</option>
+                    </select>
+                </div>
+
+                <!-- Dynamic field for Article URL Name -->
+                <div class="form-group" id="articleUrlNameGroup" style="display: none;">
+                    <label for="articleUrlName">Article URL Name:</label>
+                    <input type="text" id="articleUrlName" placeholder="Enter article URL name">
+                </div>
+
+                <!-- Dynamic field for Category Name -->
+                <div class="form-group" id="categoryNameGroup" style="display: none;">
+                    <label for="categoryName">Category Name:</label>
+                    <input type="text" id="categoryName" placeholder="Enter category name">
+                </div>
+
+                <!-- Dynamic field for Chat Button ID (get_in_touch only) -->
+                <div class="form-group" id="chatButtonIdGroup" style="display: none;">
+                    <label for="chatButtonId">Chat Button ID:</label>
+                    <select id="chatButtonId" onchange="loadChatWithButtonId()">
+                        <option value="">-- Select Button ID --</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Hidden base URL field -->
+            <input type="hidden" id="baseUrl">
+
+            <div class="button-group" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <button class="btn-generate" onclick="generateUrl()">🚀 Generate URL</button>
+                <button class="btn-generate" id="fetchChatButtonsBtn" onclick="fetchChatButtonIds()" style="display: none; background: #4CAF50;">💬 Fetch Chat Button IDs</button>
+                <div id="stageUrlsDisplay" style="display: none; flex: 1; min-width: 300px;">
+                    <!-- Stage URLs will be inserted here dynamically -->
+                </div>
+            </div>
+
+            <div class="url-display" id="urlDisplay">
+                <span style="color: rgba(255,255,255,0.7);">Click "Generate URL" to create your link</span>
+            </div>
+
+            <!-- Environment Switcher Section -->
+            <div class="env-switcher-container" id="envSwitcherContainer" style="display: none;">
+                <div class="env-switcher-buttons">
+                    <button class="btn-env-compare" onclick="openProdResponse()">
+                        � Open Prod response
+                    </button>
+                    <button class="btn-env-compare" id="openEnglishBtn" onclick="openEnglishResponse()" style="display: none;">
+                        🌐 Open English response
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Links Section (shown only for US + Home) -->
+            <div id="categoryLinksSection" style="display: none; margin-top: 20px;">
+                <h3 style="margin-bottom: 15px; font-size: 18px;">Category Links:</h3>
+                <div id="categoryLinksList" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Category links will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-section" id="bottomSection">
+        <div class="placeholder" id="placeholderText">Click on the generated URL to load the page here</div>
+
+        <!-- Single iframe view -->
+        <iframe id="previewFrame" style="display: none;"></iframe>
+
+        <!-- Split iframe view for comparison -->
+        <div class="split-iframe-container" id="splitIframeContainer">
+            <div class="iframe-panel">
+                <div class="iframe-panel-header">Stage Environment</div>
+                <iframe id="stageFrame"></iframe>
+            </div>
+            <div class="iframe-panel">
+                <div class="iframe-panel-header">Production Environment</div>
+                <iframe id="prodFrame"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let generatedUrl = '';
+
+        // Territory mapping for each proposition
+        const propositionTerritoryMapping = {
+            'nbcu': ['us'],
+            'gold': ['gb', 'de', 'ie', 'it'],
+            'showtime': ['nl', 'po'],
+            'showmax': ['tz', 'ao', 'ng'],
+            'at': ['at']
+        };
+
+        // Language code mapping for each territory
+        const languageMapping = {
+            'us': ['en-US', 'es-US'],
+            'gb': ['en-US'],
+            'ie': ['en-US'],
+            'de': ['de'],
+            'at': ['de-AT'],
+            'it': ['it'],
+            'nl': ['nl'],
+            'po': ['pl'],
+            'tz': ['sw'],
+            'ao': ['pt'],
+            'ng': ['en-US']
+    
+        };
+
+        // Stage URLs mapping by proposition and territory
+        const stageUrls = {
+            'nbcu': {
+                'us': 'https://www.stable-int.peacocktv.com/help'
+            },
+            'gold': {
+                'gb': 'https://www.stable-int.nowtv.com/gb/help',
+                'ie': 'https://www.stable-int.nowtv.com/ie/help',
+                'de': 'https://www.stable-int.wowtv.de/hilfe',
+                'it': 'https://www.stable-int.nowtv.it/assistenza'
+            },
+            'showtime': {
+                'nl': 'https://www.stable-int.skyshowtime.com/nl/help',
+                'po': 'https://www.stable-int.skyshowtime.com/po/help'
+            },
+            'showmax': {
+                'tz': 'https://www.stable-int.gottmax.com/tz/help',
+                'ao': 'https://www.stable-int.gottmax.com/ao/help',
+                'ng': 'https://www.stable-int.gottmax.com/ng/help'
+            },
+            'at': {
+                'at': 'https://www.func.prod.skyx.sky.at/hilfe/'
+            }
+        };
+
+        // Production URLs mapping by proposition and territory
+        const prodUrls = {
+            'nbcu': {
+                'us': 'https://www.peacocktv.com/help'
+            },
+            'gold': {
+                'gb': 'https://www.nowtv.com/gb/help',
+                'ie': 'https://www.nowtv.com/ie/help',
+                'de': 'https://www.wowtv.de/hilfe',
+                'it': 'https://www.nowtv.it/assistenza'
+            },
+            'showtime': {
+                'nl': 'https://www.skyshowtime.com/nl/help',
+                'po': 'https://www.skyshowtime.com/po/help'
+            },
+            'showmax': {
+                'tz': 'https://www.showmax.com/tz/help',
+                'ao': 'https://www.showmax.com/ao/help',
+                'ng': 'https://www.showmax.com/ng/help'
+            },
+            'at': {
+                'at': 'https://skyx.sky.at/hilfe'
+            }
+        };
+
+        // Send Message URLs (Stage environment)
+        const sendMessageUrls = {
+            'nbcu': {
+                'us': 'https://www.stable-int.peacocktv.com/help/email-us'
+            },
+            'gold': {
+                'gb': 'https://www.stable-int.nowtv.com/gb/help/email-us',
+                'ie': 'https://www.stable-int.nowtv.com/ie/help/email-us',
+                'de': 'https://www.stable-int.wowtv.de/hilfe/kontakt-formular',
+                'it': 'https://www.stable-int.nowtv.it/assistenza/modulo-web'
+            },
+            'showtime': {
+                'nl': 'https://www.stable-int.skyshowtime.com/nl/help/email-us',
+                'po': 'https://www.stable-int.skyshowtime.com/po/help/email-us'
+            },
+            'showmax': {
+                'tz': 'https://www.stable-int.gottmax.com/tz/help/email-us',
+                'ao': 'https://www.stable-int.gottmax.com/ao/help/email-us',
+                'ng': 'https://www.stable-int.gottmax.com/ng/help/email-us'
+            },
+            'at': {
+                'at': 'https://www.func.prod.skyx.sky.at/hilfe/email-us'
+            }
+        };
+
+        // Send Message URLs (Production environment)
+        const prodSendMessageUrls = {
+            'nbcu': {
+                'us': 'https://www.peacocktv.com/help/email-us'
+            },
+            'gold': {
+                'gb': 'https://www.nowtv.com/gb/help/email-us',
+                'ie': 'https://www.nowtv.com/ie/help/email-us',
+                'de': 'https://www.wowtv.de/hilfe/kontakt-formular',
+                'it': 'https://www.nowtv.it/assistenza/modulo-web'
+            },
+            'showtime': {
+                'nl': 'https://www.skyshowtime.com/nl/help/email-us',
+                'po': 'https://www.skyshowtime.com/po/help/email-us'
+            },
+            'showmax': {
+                'tz': 'https://www.showmax.com/tz/help/email-us',
+                'ao': 'https://www.showmax.com/ao/help/email-us',
+                'ng': 'https://www.showmax.com/ng/help/email-us'
+            },
+            'at': {
+                'at': 'https://skyx.sky.at/hilfe/email-us'
+            }
+        };
+
+        // Category list for US (English)
+        const usCategoriesEN = [
+            { key: 'getting-started', name: 'Getting Started' },
+            { key: 'whats-on-peacock', name: 'What\'s On Peacock' },
+            { key: 'manage-my-account', name: 'Manage My Account' },
+            { key: 'using-peacock', name: 'Using Peacock' },
+            { key: 'olympics', name: 'Olympics' },
+            { key: 'nfl', name: 'NFL' }
+        ];
+
+        // Category list for US (Spanish)
+        const usCategoriesES = [
+            { key: 'getting-started', name: 'Cómo empezar' },
+            { key: 'manage-my-account', name: 'Administrar mi cuenta' },
+            { key: 'nfl', name: 'NFL' },
+            { key: 'olympics', name: 'Olympics' },
+            { key: 'using-peacock', name: 'Cómo usar Peacock' },
+            { key: 'whats-on-peacock', name: 'Qué hay de nuevo en Peacock' }
+        ];
+
+        // Category list for GB 
+        const gbCategories = [
+            { key: 'getting-started', name: 'Getting Started' },
+            { key: 'watching-now', name: 'Watching Now' },
+            { key: 'fix-a-problem', name: 'Fix A Problem' },
+            { key: 'account-billing', name: 'Account Billing' },
+            { key: 'broadband-and-calls', name: 'Broadband And Calls' }
+        ];
+
+           // Category list for IE
+        const ieCategories = [
+            { key: 'getting-started', name: 'Getting Started' },
+            { key: 'watching-now', name: 'Watching Now' },
+            { key: 'fix-a-problem', name: 'Fix A Problem' },
+            { key: 'account-billing', name: 'Account Billing' },
+        ];
+
+        // Category list for DE
+        const deCategories = [
+            { key: 'alles-uber-wow', name: 'Alles über WOW' },
+            { key: 'wow-streamen', name: 'WOW streamen' },
+            { key: 'ein-problem-beheben', name: 'Ein Problem beheben' },
+            { key: 'konto-rechnung', name: 'Konto & Rechnung' }
+        ];
+
+        // Category list for IT
+        const itCategories = [
+            { key: 'scopri-now', name: 'Scopri NOW' },
+            { key: 'streaming-su-now', name: 'Streaming su NOW' },
+            { key: 'risoluzione-problemi', name: 'Risoluzione problemi' },
+            { key: 'account-e-fatturazione', name: 'Account e Fatturazione' }
+        ];
+
+        const showtimeCategories = [
+            { key: 'getting-started', name: 'Getting Started' },
+            { key: 'watching-skyshowtime', name: 'Watching Now' },
+            { key: 'fix-a-problem', name: 'Fix A Problem' },
+            { key: 'account-and-billing', name: 'Account Billing' },
+        ];
+
+        const showmaxCategories = [
+            { key: 'getting-started', name: 'Getting Started' },
+            { key: 'watching-showmax', name: 'Watching Now' },
+            { key: 'fix-a-problem', name: 'Fix A Problem' },
+            { key: 'account-and-billing', name: 'Account Billing' },
+        ];
+
+        // Update environment field visibility
+        function updateEnvironmentField() {
+            const environment = document.getElementById('environment').value;
+            const sandboxNameGroup = document.getElementById('sandboxNameGroup');
+
+            if (environment === 'other') {
+                sandboxNameGroup.style.display = 'flex';
+            } else {
+                sandboxNameGroup.style.display = 'none';
+            }
+
+            // Update environment URLs display
+            updateEnvironmentUrls();
+        }
+
+        // Update territories based on selected proposition
+        function updateTerritories() {
+            const proposition = document.getElementById('proposition').value;
+            const territoryCodeSelect = document.getElementById('territoryCode');
+
+            // Clear existing options
+            territoryCodeSelect.innerHTML = '';
+
+            // Get territories for selected proposition
+            const territories = propositionTerritoryMapping[proposition] || [];
+
+            // Populate territory dropdown
+            territories.forEach(territory => {
+                const option = document.createElement('option');
+                option.value = territory;
+                option.textContent = territory.toUpperCase();
+                territoryCodeSelect.appendChild(option);
+            });
+
+            // Update language codes and user type field based on new territory
+            updateLanguageCodes();
+            updateUserTypeField();
+
+            // Update environment URLs display
+            updateEnvironmentUrls();
+        }
+
+        // Get the base URL based on environment and proposition
+        function getBaseUrl(environment, proposition, sandboxName = '') {
+            // Handle custom sandbox environment
+            if (environment === 'other') {
+                if (!sandboxName || sandboxName.trim() === '') {
+                    alert('Please enter a sandbox name');
+                    return null;
+                }
+
+                // Build custom sandbox URL based on proposition
+                if (proposition === 'nbcu') {
+                    return `https://ott-nbcu--${sandboxName}.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider`;
+                } else if (proposition === 'gold') {
+                    return `https://now-eu--${sandboxName}.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider`;
+                } else if (proposition === 'showtime') {
+                    return `https://ott-summer--${sandboxName}.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider`;
+                } else if (proposition === 'showmax') {
+                    return `https://ott-earth--${sandboxName}.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider`;
+                }
+            }
+
+            // NBCU uses US URLs
+            if (proposition === 'nbcu') {
+                if (environment === 'stage') {
+                    return 'https://ott-nbcu--stage.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                } else if (environment === 'prod') {
+                    return 'https://ott-nbcu.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                }
+            } else if (proposition === 'gold') {
+                // Gold uses EU URLs
+                if (environment === 'stage') {
+                    return 'https://now-eu--stage.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                } else if (environment === 'prod') {
+                    return 'https://now-eu.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                }
+            } else if (proposition === 'showtime') {
+                if (environment === 'stage') {
+                    return 'https://ott-summer--stage.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                } else if (environment === 'prod') {
+                    return 'https://ott-summer.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                }
+            } else if (proposition === 'showmax') {
+                if (environment === 'stage') {
+                    return 'https://ott-earth--stage.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                } else if (environment === 'prod') {
+                    return 'https://ott-earth.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                }
+            } else if (proposition === 'at') {
+                if (environment === 'stage') {
+                    return 'https://ott-at--stage.sandbox.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                } else if (environment === 'prod') {
+                    return 'https://ott-at.my.salesforce-sites.com/apex/Help_2_JsonVFP_ViewModelsProvider';
+                }
+            }
+        }
+
+        function updateLanguageCodes() {
+            const territoryCode = document.getElementById('territoryCode').value;
+            const languageCodeSelect = document.getElementById('languageCode');
+
+            // Get the available languages for the selected territory
+            const availableLanguages = languageMapping[territoryCode] || ['en-US'];
+
+            // Clear existing options
+            languageCodeSelect.innerHTML = '';
+
+            // Add new options
+            availableLanguages.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang;
+                option.textContent = lang;
+                languageCodeSelect.appendChild(option);
+            });
+        }
+
+        function updateEnvironmentUrls() {
+            const environment = document.getElementById('environment').value;
+            const proposition = document.getElementById('proposition').value;
+            const viewModelType = document.getElementById('viewModelType').value;
+            const territoryCode = document.getElementById('territoryCode').value;
+            const envUrlsDisplay = document.getElementById('stageUrlsDisplay');
+
+            // Only show for Stage or Production environment
+            if (environment !== 'stage' && environment !== 'prod') {
+                envUrlsDisplay.style.display = 'none';
+                return;
+            }
+
+            // Determine which URL set to use based on environment and view model type
+            let urls;
+            if (viewModelType === 'send_msg') {
+                // Use send message URLs for both Stage and Production
+                urls = environment === 'stage' ? sendMessageUrls[proposition] : prodSendMessageUrls[proposition];
+            } else {
+                // Use standard help URLs
+                urls = environment === 'stage' ? stageUrls[proposition] : prodUrls[proposition];
+            }
+
+            if (!urls || Object.keys(urls).length === 0) {
+                envUrlsDisplay.style.display = 'none';
+                return;
+            }
+
+            // Get the URL for the selected territory only
+            let url = urls[territoryCode];
+
+            if (!url) {
+                envUrlsDisplay.style.display = 'none';
+                return;
+            }
+
+            // Append path suffix for 'get_in_touch' view model type
+            if (viewModelType === 'get_in_touch') {
+                let pathSuffix = '';
+
+                // Determine path suffix based on proposition and territory
+                if (proposition === 'showmax' || proposition === 'showtime' || proposition === 'nbcu') {
+                    pathSuffix = '/get-in-touch';
+                } else if (proposition === 'gold') {
+                    if (territoryCode === 'gb' || territoryCode === 'ie') {
+                        pathSuffix = '/get-in-touch';
+                    } else if (territoryCode === 'it') {
+                        pathSuffix = '/contattaci';
+                    } else if (territoryCode === 'de') {
+                        pathSuffix = '/kontaktiere-uns';
+                    }
+                } else if (proposition === 'at') {
+                    pathSuffix = '/in-kontakt-treten';
+                }
+
+                url = url + pathSuffix;
+            }
+
+            // Clear existing URLs
+            envUrlsDisplay.innerHTML = '';
+
+            // Display only the URL for the selected territory
+            const urlItem = document.createElement('div');
+            urlItem.className = 'stage-url-inline';
+
+            const label = document.createElement('span');
+            label.className = 'url-label';
+            label.textContent = `${territoryCode.toUpperCase()}:`;
+
+            const link = document.createElement('a');
+            link.className = 'url-link';
+            link.href = url;
+            link.target = '_blank';
+            link.textContent = url;
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn-tiny';
+            copyBtn.textContent = '📋';
+            copyBtn.onclick = function() {
+                copyToClipboard(url, this);
+            };
+
+            urlItem.appendChild(label);
+            urlItem.appendChild(link);
+            urlItem.appendChild(copyBtn);
+            envUrlsDisplay.appendChild(urlItem);
+
+            // Add trial URL for Showmax and Showtime Stage environments
+            if (environment === 'stage') {
+                let trialUrl = null;
+
+                if (proposition === 'showmax') {
+                    trialUrl = 'https://www.stable-int.gottmax.com/trial?';
+                } else if (proposition === 'showtime') {
+                    trialUrl = 'https://www.stable-int.skyshowtime.com/nl/trial?';
+                }
+
+                if (trialUrl) {
+                    const trialItem = document.createElement('div');
+                    trialItem.className = 'stage-url-inline';
+
+                    const trialLabel = document.createElement('span');
+                    trialLabel.className = 'url-label';
+                    trialLabel.textContent = 'TRIAL:';
+
+                    const trialLink = document.createElement('a');
+                    trialLink.className = 'url-link';
+                    trialLink.href = trialUrl;
+                    trialLink.target = '_blank';
+                    trialLink.textContent = trialUrl;
+
+                    const trialCopyBtn = document.createElement('button');
+                    trialCopyBtn.className = 'copy-btn-tiny';
+                    trialCopyBtn.textContent = '📋';
+                    trialCopyBtn.onclick = function() {
+                        copyToClipboard(trialUrl, this);
+                    };
+
+                    trialItem.appendChild(trialLabel);
+                    trialItem.appendChild(trialLink);
+                    trialItem.appendChild(trialCopyBtn);
+                    envUrlsDisplay.appendChild(trialItem);
+                }
+            }
+
+            envUrlsDisplay.style.display = 'flex';
+        }
+
+        function updateDynamicFields() {
+            const viewModelType = document.getElementById('viewModelType').value;
+            const articleUrlNameGroup = document.getElementById('articleUrlNameGroup');
+            const categoryNameGroup = document.getElementById('categoryNameGroup');
+            const chatButtonIdGroup = document.getElementById('chatButtonIdGroup');
+            const fetchChatButtonsBtn = document.getElementById('fetchChatButtonsBtn');
+
+            // Hide all dynamic fields first
+            articleUrlNameGroup.style.display = 'none';
+            categoryNameGroup.style.display = 'none';
+            chatButtonIdGroup.style.display = 'none';
+            fetchChatButtonsBtn.style.display = 'none';
+
+            // Reset chat button dropdown when switching view model types
+            const chatButtonIdSelect = document.getElementById('chatButtonId');
+            chatButtonIdSelect.innerHTML = '<option value="">-- Select Button ID --</option>';
+
+            // Show the appropriate field based on view model type
+            if (viewModelType === 'article') {
+                articleUrlNameGroup.style.display = 'flex';
+            } else if (viewModelType === 'category') {
+                categoryNameGroup.style.display = 'flex';
+            }
+
+            // Update environment URLs display (for send_msg view model type)
+            updateEnvironmentUrls();
+        }
+
+        function updateUserTypeField() {
+            const territoryCode = document.getElementById('territoryCode').value;
+            const viewModelType = document.getElementById('viewModelType').value;
+            const userTypeGroup = document.getElementById('userTypeGroup');
+
+            // Show user segmentation field only for US territory AND home view model type
+            if (territoryCode === 'us' && viewModelType === 'home') {
+                userTypeGroup.style.display = 'flex';
+            } else {
+                userTypeGroup.style.display = 'none';
+            }
+        }
+
+        function updateViewModelTypeOptions() {
+            // This function is no longer needed but kept for compatibility
+            // View model types are now static
+        }
+
+        // Initialize language codes on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            updateLanguageCodes();
+            updateDynamicFields();
+            updateUserTypeField();
+        });
+
+        function copyToClipboard(text, buttonElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Visual feedback
+                const originalText = buttonElement.textContent;
+                buttonElement.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    buttonElement.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy URL');
+            });
+        }
+
+        function generateCategoryLinks(baseUrl, proposition, territoryCode, languageCode) {
+            const categoryLinksSection = document.getElementById('categoryLinksSection');
+            const categoryLinksList = document.getElementById('categoryLinksList');
+
+            // Clear previous links
+            categoryLinksList.innerHTML = '';
+
+            // Select the appropriate category list based on territory and language
+            let categories;
+            if (territoryCode === 'us') {
+                // For US, select based on language code
+                if (languageCode === 'es-US') {
+                    categories = usCategoriesES;
+                } else {
+                    categories = usCategoriesEN;
+                }
+            } else if (territoryCode === 'gb') {
+                categories = gbCategories;
+            }else if (territoryCode === 'de') {
+                categories = deCategories;
+            }else if (territoryCode === 'it') {
+                categories = itCategories;
+            }else if (territoryCode === 'ie') {
+                categories = ieCategories;
+            } else {
+                if (proposition === 'showmax') {
+                    categories = showmaxCategories;
+                } else if (proposition === 'showtime') {
+                    categories = showtimeCategories;
+                } else {
+                    return; // No categories for other territories
+                }
+                
+            }
+
+            // Generate category links
+            categories.forEach(category => {
+                const categoryContainer = document.createElement('div');
+                categoryContainer.style.marginBottom = '20px';
+
+                // Category name header
+                const categoryHeader = document.createElement('div');
+                categoryHeader.innerHTML = `<strong style="color: #ffd700; font-size: 14px;">${category.name}</strong>`;
+                categoryHeader.style.marginBottom = '8px';
+                categoryContainer.appendChild(categoryHeader);
+
+                if (territoryCode === 'us') {
+                    // For US: Generate both with and without language_code
+
+                    // With language_code
+                    const paramsWithLang = new URLSearchParams();
+                    paramsWithLang.append('view_model_type', 'category');
+                    paramsWithLang.append('category_key', category.key);
+                    paramsWithLang.append('territory_code', territoryCode);
+                    paramsWithLang.append('language_code', languageCode);
+                    const categoryUrlWithLang = `${baseUrl}?${paramsWithLang.toString()}`;
+
+                    const withLangDiv = document.createElement('div');
+                    withLangDiv.innerHTML = '<div class="url-variant-label" style="font-size: 11px;">With Language Code:</div>';
+                    const withLangVariant = document.createElement('div');
+                    withLangVariant.className = 'url-variant';
+                    withLangVariant.style.padding = '8px';
+
+                    const withLangContent = document.createElement('div');
+                    withLangContent.className = 'url-content';
+                    withLangContent.innerHTML = `<a href="#" class="url-link" onclick="loadUrlDirect('${categoryUrlWithLang.replace(/'/g, "\\'")}'); return false;" style="font-size: 12px; word-break: break-all;">${categoryUrlWithLang}</a>`;
+
+                    const withLangCopyBtn = document.createElement('button');
+                    withLangCopyBtn.className = 'copy-btn-small';
+                    withLangCopyBtn.textContent = '📋 Copy';
+                    withLangCopyBtn.onclick = function() {
+                        copyToClipboard(categoryUrlWithLang, this);
+                    };
+
+                    withLangVariant.appendChild(withLangContent);
+                    withLangVariant.appendChild(withLangCopyBtn);
+                    withLangDiv.appendChild(withLangVariant);
+
+                    // Without language_code
+                    const paramsWithoutLang = new URLSearchParams();
+                    paramsWithoutLang.append('view_model_type', 'category');
+                    paramsWithoutLang.append('category_key', category.key);
+                    paramsWithoutLang.append('territory_code', territoryCode);
+                    const categoryUrlWithoutLang = `${baseUrl}?${paramsWithoutLang.toString()}`;
+
+                    const withoutLangDiv = document.createElement('div');
+                    withoutLangDiv.innerHTML = '<div class="url-variant-label" style="font-size: 11px;">Without Language Code:</div>';
+                    const withoutLangVariant = document.createElement('div');
+                    withoutLangVariant.className = 'url-variant';
+                    withoutLangVariant.style.padding = '8px';
+
+                    const withoutLangContent = document.createElement('div');
+                    withoutLangContent.className = 'url-content';
+                    withoutLangContent.innerHTML = `<a href="#" class="url-link" onclick="loadUrlDirect('${categoryUrlWithoutLang.replace(/'/g, "\\'")}'); return false;" style="font-size: 12px; word-break: break-all;">${categoryUrlWithoutLang}</a>`;
+
+                    const withoutLangCopyBtn = document.createElement('button');
+                    withoutLangCopyBtn.className = 'copy-btn-small';
+                    withoutLangCopyBtn.textContent = '📋 Copy';
+                    withoutLangCopyBtn.onclick = function() {
+                        copyToClipboard(categoryUrlWithoutLang, this);
+                    };
+
+                    withoutLangVariant.appendChild(withoutLangContent);
+                    withoutLangVariant.appendChild(withoutLangCopyBtn);
+                    withoutLangDiv.appendChild(withoutLangVariant);
+
+                    categoryContainer.appendChild(withLangDiv);
+                    categoryContainer.appendChild(withoutLangDiv);
+
+                } else {
+                    // For GB and other territories: Single URL without language_code
+                    const params = new URLSearchParams();
+                    params.append('view_model_type', 'category');
+                    params.append('category_key', category.key);
+                    params.append('territory_code', territoryCode);
+                    const categoryUrl = `${baseUrl}?${params.toString()}`;
+
+                    const linkDiv = document.createElement('div');
+                    linkDiv.className = 'category-link-item';
+
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'category-link-content';
+                    contentDiv.innerHTML = `<a href="#" class="url-link" onclick="loadUrlDirect('${categoryUrl.replace(/'/g, "\\'")}'); return false;" style="font-size: 12px; word-break: break-all;">${categoryUrl}</a>`;
+
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'copy-btn-small';
+                    copyBtn.textContent = '📋 Copy';
+                    copyBtn.onclick = function() {
+                        copyToClipboard(categoryUrl, this);
+                    };
+
+                    linkDiv.appendChild(contentDiv);
+                    linkDiv.appendChild(copyBtn);
+                    categoryContainer.appendChild(linkDiv);
+                }
+
+                categoryLinksList.appendChild(categoryContainer);
+            });
+
+            // Show the category links section
+            categoryLinksSection.style.display = 'block';
+        }
+
+        function generateUrl() {
+            const environment = document.getElementById('environment').value;
+            const viewModelType = document.getElementById('viewModelType').value;
+            const proposition = document.getElementById('proposition').value;
+            const territoryCode = document.getElementById('territoryCode').value;
+            const languageCode = document.getElementById('languageCode').value;
+            const sandboxName = document.getElementById('sandboxName').value;
+
+            // Get the appropriate base URL
+            const baseUrl = getBaseUrl(environment, proposition, sandboxName);
+
+            // If baseUrl is null (validation failed), stop execution
+            if (!baseUrl) {
+                return;
+            }
+
+            // Handle 'base' view model type - display only base URL
+            if (viewModelType === 'base') {
+                generatedUrl = baseUrl;
+
+                // Display the base URL
+                const urlDisplay = document.getElementById('urlDisplay');
+                urlDisplay.innerHTML = '';
+
+                const urlVariant = document.createElement('div');
+                urlVariant.className = 'url-variant';
+
+                const urlContent = document.createElement('div');
+                urlContent.className = 'url-content';
+                urlContent.innerHTML = `<a href="#" class="url-link" onclick="loadUrl('${baseUrl.replace(/'/g, "\\'")}'); return false;">${baseUrl}</a>`;
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.textContent = '📋 Copy URL';
+                copyBtn.onclick = function() {
+                    copyToClipboard(baseUrl, this);
+                };
+
+                urlVariant.appendChild(urlContent);
+                urlVariant.appendChild(copyBtn);
+                urlDisplay.appendChild(urlVariant);
+
+                // Hide category links section for base
+                const categoryLinksSection = document.getElementById('categoryLinksSection');
+                categoryLinksSection.style.display = 'none';
+
+                // Update environment switcher visibility
+                updateEnvironmentSwitcher();
+
+                return;
+            }
+
+            // Build the URL with query parameters based on view model type
+            let params = new URLSearchParams();
+            params.append('view_model_type', viewModelType);
+            params.append('territory_code', territoryCode);
+
+            // Only add language_code for US territory
+            if (territoryCode === 'us') {
+                params.append('language_code', languageCode);
+            }
+
+            // Add user type parameter if territory is US and view model type is home
+            if (territoryCode === 'us' && viewModelType === 'home') {
+                const userType = document.getElementById('userType').value;
+                if (userType) {  // Only add if a value is selected (not empty for "All")
+                    params.append('user_type', userType);
+                }
+            }
+
+            // Add specific parameters based on view model type
+            if (viewModelType === 'article') {
+                const articleUrlName = document.getElementById('articleUrlName').value.trim();
+                if (!articleUrlName) {
+                    alert('Please enter an Article URL Name');
+                    return;
+                }
+                // For article, replace standard params with article-specific ones
+                params = new URLSearchParams();
+                params.append('view_model_type', 'article');
+                params.append('article_key', articleUrlName);
+                params.append('territory_code', territoryCode);
+
+                // Only add language_code for US territory
+                if (territoryCode === 'us') {
+                    params.append('language_code', languageCode);
+                }
+            } else if (viewModelType === 'category') {
+                const categoryName = document.getElementById('categoryName').value.trim();
+                if (!categoryName) {
+                    alert('Please enter a Category Name');
+                    return;
+                }
+                // For category, replace standard params with category-specific ones
+                params = new URLSearchParams();
+                params.append('view_model_type', 'category');
+                params.append('category_key', categoryName);
+                params.append('territory_code', territoryCode);
+
+                // Only add language_code for US territory
+                if (territoryCode === 'us') {
+                    params.append('language_code', languageCode);
+                }
+            }
+
+            generatedUrl = `${baseUrl}?${params.toString()}`;
+
+            // Display the URL as a clickable link with copy button
+            const urlDisplay = document.getElementById('urlDisplay');
+            urlDisplay.innerHTML = '';
+
+            // For US territory, also generate URL without language_code
+            if (territoryCode === 'us') {
+                // Create a container for both URLs
+                const container = document.createElement('div');
+
+                // URL with language_code
+                const withLangDiv = document.createElement('div');
+                withLangDiv.innerHTML = '<div class="url-variant-label">With Language Code:</div>';
+                const withLangVariant = document.createElement('div');
+                withLangVariant.className = 'url-variant';
+
+                const withLangContent = document.createElement('div');
+                withLangContent.className = 'url-content';
+                withLangContent.innerHTML = `<a href="#" class="url-link" onclick="loadUrlDirect('${generatedUrl.replace(/'/g, "\\'")}'); return false;">${generatedUrl}</a>`;
+
+                const withLangCopyBtn = document.createElement('button');
+                withLangCopyBtn.className = 'copy-btn-small';
+                withLangCopyBtn.textContent = '📋 Copy';
+                withLangCopyBtn.onclick = function() {
+                    copyToClipboard(generatedUrl, this);
+                };
+
+                withLangVariant.appendChild(withLangContent);
+                withLangVariant.appendChild(withLangCopyBtn);
+                withLangDiv.appendChild(withLangVariant);
+
+                // URL without language_code
+                const paramsWithoutLang = new URLSearchParams(params);
+                paramsWithoutLang.delete('language_code');
+                const urlWithoutLang = `${baseUrl}?${paramsWithoutLang.toString()}`;
+
+                const withoutLangDiv = document.createElement('div');
+                withoutLangDiv.innerHTML = '<div class="url-variant-label">Without Language Code:</div>';
+                const withoutLangVariant = document.createElement('div');
+                withoutLangVariant.className = 'url-variant';
+
+                const withoutLangContent = document.createElement('div');
+                withoutLangContent.className = 'url-content';
+                withoutLangContent.innerHTML = `<a href="#" class="url-link" onclick="loadUrlDirect('${urlWithoutLang.replace(/'/g, "\\'")}'); return false;">${urlWithoutLang}</a>`;
+
+                const withoutLangCopyBtn = document.createElement('button');
+                withoutLangCopyBtn.className = 'copy-btn-small';
+                withoutLangCopyBtn.textContent = '📋 Copy';
+                withoutLangCopyBtn.onclick = function() {
+                    copyToClipboard(urlWithoutLang, this);
+                };
+
+                withoutLangVariant.appendChild(withoutLangContent);
+                withoutLangVariant.appendChild(withoutLangCopyBtn);
+                withoutLangDiv.appendChild(withoutLangVariant);
+
+                container.appendChild(withLangDiv);
+                container.appendChild(withoutLangDiv);
+                urlDisplay.appendChild(container);
+            } else {
+                // For non-US territories, show single URL
+                const urlContent = document.createElement('div');
+                urlContent.className = 'url-content';
+                urlContent.innerHTML = `<a href="#" class="url-link" onclick="loadUrl(); return false;">${generatedUrl}</a>`;
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn-small';
+                copyBtn.textContent = '📋 Copy';
+                copyBtn.onclick = function() {
+                    copyToClipboard(generatedUrl, this);
+                };
+
+                urlDisplay.appendChild(urlContent);
+                urlDisplay.appendChild(copyBtn);
+            }
+
+            // Show category links if view model is home
+            if (viewModelType === 'home') {
+                generateCategoryLinks(baseUrl, proposition, territoryCode, languageCode);
+            } else {
+                // Hide category links section
+                document.getElementById('categoryLinksSection').style.display = 'none';
+            }
+
+            // For get_in_touch, show the Fetch Chat Button IDs button and dropdown
+            if (viewModelType === 'get_in_touch') {
+                document.getElementById('fetchChatButtonsBtn').style.display = 'inline-block';
+                document.getElementById('chatButtonIdGroup').style.display = 'flex';
+            } else {
+                document.getElementById('fetchChatButtonsBtn').style.display = 'none';
+                document.getElementById('chatButtonIdGroup').style.display = 'none';
+            }
+
+            // Update environment switcher visibility and state
+            updateEnvironmentSwitcher();
+        }
+
+        // Fetch Chat Button IDs from the generated get_in_touch URL
+        function fetchChatButtonIds() {
+            if (!generatedUrl) {
+                alert('Please generate a URL first by clicking "Generate URL"');
+                return;
+            }
+
+            const chatButtonIdSelect = document.getElementById('chatButtonId');
+            const fetchBtn = document.getElementById('fetchChatButtonsBtn');
+
+            // Show loading state
+            chatButtonIdSelect.innerHTML = '<option value="">-- Loading... --</option>';
+            fetchBtn.textContent = '⏳ Fetching...';
+            fetchBtn.disabled = true;
+
+            // Fetch the JSON from the generated URL
+            fetch(generatedUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Extract chat button IDs from the JSON response
+                    const buttonIds = extractChatButtonIds(data);
+                    populateChatButtonDropdown(buttonIds);
+
+                    // Reset button state
+                    fetchBtn.textContent = '💬 Fetch Chat Button IDs';
+                    fetchBtn.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error fetching chat button IDs:', error);
+                    chatButtonIdSelect.innerHTML = '<option value="">-- Error: Could not fetch --</option>';
+                    fetchBtn.textContent = '💬 Fetch Chat Button IDs';
+                    fetchBtn.disabled = false;
+                    alert('Error fetching JSON. Please check the console for details.\n\nYou may need to open the URL directly in a new tab to view the JSON response.');
+                });
+        }
+
+        // Extract chatButtonIdNotSignedIn and chatButtonIdSignedIn from JSON response
+        function extractChatButtonIds(data) {
+            const buttonIds = [];
+
+            // Search through the entire JSON structure for chat button IDs
+            function searchForButtonIds(obj, path = '') {
+                if (obj === null || obj === undefined) return;
+
+                if (typeof obj === 'object') {
+                    // Check if this object has chatButtonIdNotSignedIn or chatButtonIdSignedIn
+                    if (obj.chatButtonIdNotSignedIn) {
+                        const serviceType = obj.serviceType || path || 'Unknown';
+                        buttonIds.push({
+                            id: obj.chatButtonIdNotSignedIn,
+                            label: `${serviceType} - Not Signed In: ${obj.chatButtonIdNotSignedIn}`
+                        });
+                    }
+                    if (obj.chatButtonIdSignedIn) {
+                        const serviceType = obj.serviceType || path || 'Unknown';
+                        buttonIds.push({
+                            id: obj.chatButtonIdSignedIn,
+                            label: `${serviceType} - Signed In: ${obj.chatButtonIdSignedIn}`
+                        });
+                    }
+
+                    // Recursively search through all properties
+                    if (Array.isArray(obj)) {
+                        obj.forEach((item, index) => searchForButtonIds(item, path));
+                    } else {
+                        Object.keys(obj).forEach(key => {
+                            searchForButtonIds(obj[key], key);
+                        });
+                    }
+                }
+            }
+
+            searchForButtonIds(data);
+            return buttonIds;
+        }
+
+        // Populate chat button dropdown with extracted button IDs
+        function populateChatButtonDropdown(buttonIds) {
+            const chatButtonIdSelect = document.getElementById('chatButtonId');
+
+            // Reset dropdown
+            chatButtonIdSelect.innerHTML = '<option value="">-- Select Button ID --</option>';
+
+            // Remove duplicates based on ID
+            const uniqueButtonIds = buttonIds.filter((item, index, self) =>
+                index === self.findIndex(t => t.id === item.id)
+            );
+
+            // Add options if button IDs exist
+            uniqueButtonIds.forEach(buttonIdObj => {
+                const option = document.createElement('option');
+                option.value = buttonIdObj.id;
+                option.textContent = buttonIdObj.label;
+                chatButtonIdSelect.appendChild(option);
+            });
+
+            // If no button IDs found
+            if (uniqueButtonIds.length === 0) {
+                chatButtonIdSelect.innerHTML = '<option value="">-- No Button IDs Found in Response --</option>';
+            }
+        }
+
+        // Load chat with a specific button ID
+        function loadChatWithSpecificButtonId(buttonId) {
+            if (!buttonId) {
+                return;
+            }
+
+            // Remove any existing embedded service elements
+            const existingChat = document.querySelector('.embeddedServiceHelpButton');
+            if (existingChat) {
+                existingChat.remove();
+            }
+
+            // Remove existing embedded service sidebar if present
+            const existingSidebar = document.querySelector('.embeddedServiceSidebar');
+            if (existingSidebar) {
+                existingSidebar.remove();
+            }
+
+            // Reset embedded_svc if it exists
+            if (window.embedded_svc) {
+                delete window.embedded_svc;
+            }
+
+            // Add embedded service styles
+            let styleElement = document.getElementById('embeddedServiceStyles');
+            if (!styleElement) {
+                styleElement = document.createElement('style');
+                styleElement.id = 'embeddedServiceStyles';
+                styleElement.textContent = `
+                    .embeddedServiceHelpButton .helpButton .uiButton {
+                        background-color: #005290;
+                        font-family: "Arial", sans-serif;
+                    }
+                    .embeddedServiceHelpButton .helpButton .uiButton:focus {
+                        outline: 1px solid #005290;
+                    }
+                `;
+                document.head.appendChild(styleElement);
+            }
+
+            // Load the embedded service script
+            const script = document.createElement('script');
+            script.src = 'https://service.force.com/embeddedservice/5.0/esw.min.js';
+            script.onload = function() {
+                initEmbeddedService(buttonId);
+            };
+            document.body.appendChild(script);
+        }
+
+        // Load embedded service chat with selected button ID from dropdown
+        function loadChatWithButtonId() {
+            const chatButtonIdSelect = document.getElementById('chatButtonId');
+            const selectedButtonId = chatButtonIdSelect.value;
+            loadChatWithSpecificButtonId(selectedButtonId);
+        }
+
+        // Initialize embedded service with dynamic button ID
+        function initEmbeddedService(buttonId) {
+            var initESW = function(gslbBaseURL) {
+                embedded_svc.settings.displayHelpButton = true;
+                embedded_svc.settings.language = '';
+
+                embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+                embedded_svc.settings.entryFeature = 'LiveAgent';
+
+                embedded_svc.settings.extraPrechatFormDetails = [
+                    {
+                        "label": "Origin",
+                        "value": "Chatbot",
+                        "transcriptFields": [],
+                        "displayToAgent": true,
+                        "name": "Origin"
+                    },
+                    {
+                        "label": "Brand",
+                        "value": "NOWTV",
+                        "entityMaps": [],
+                        "transcriptFields": [],
+                        "displayToAgent": true,
+                        "doKnowledgeSearch": false,
+                        "name": "Brand__c"
+                    },
+                    {
+                        "label": "Subject",
+                        "value": "default",
+                        "entityMaps": [],
+                        "transcriptFields": [],
+                        "displayToAgent": true,
+                        "doKnowledgeSearch": false,
+                        "name": "Subject"
+                    },
+                    {
+                        "label": "Territory",
+                        "value": "GB",
+                        "entityMaps": [],
+                        "transcriptFields": [
+                            "Territory__c"
+                        ],
+                        "displayToAgent": true,
+                        "doKnowledgeSearch": false,
+                        "name": "Territory__c"
+                    },
+                    {
+                        "label": "Customer Case Classification",
+                        "value": "I need help",
+                        "entityMaps": [],
+                        "transcriptFields": [],
+                        "displayToAgent": true,
+                        "doKnowledgeSearch": false,
+                        "name": "Customer_Case_Classification__c"
+                    },
+                    {
+                        "label": "Customer Case Service Type",
+                        "value": "TV",
+                        "entityMaps": [],
+                        "transcriptFields": [],
+                        "displayToAgent": true,
+                        "doKnowledgeSearch": false,
+                        "name": "Customer_Case_Service_Type__c"
+                    },
+                    {
+                        "label": "Last Article Viewed",
+                        "entityMaps": [],
+                        "transcriptFields": [],
+                        "displayToAgent": true,
+                        "doKnowledgeSearch": false,
+                        "name": "Last_Article_Viewed__c"
+                    },
+                    {
+                        "label": "Logged In",
+                        "entityMaps": [],
+                        "transcriptFields": [],
+                        "displayToAgent": true,
+                        "doKnowledgeSearch": false,
+                        "name": "Logged_In_Status__c"
+                    },
+                    {
+                        "label": "Marketing Cloud Visitor ID",
+                        "value": "MCMID%7C09322215642873857170717839780226780765",
+                        "transcriptFields": [
+                            "MarketingCloudVisitorID__c"
+                        ],
+                        "displayToAgent": false,
+                        "name": "MarketingCloudVisitorID__c"
+                    },
+                    {
+                        "label": "Help ContactId",
+                        "transcriptFields": [
+                            "Help_ContactId__c"
+                        ],
+                        "displayToAgent": false,
+                        "name": "Help_ContactId__c"
+                    },
+                    {
+                        "label": "Contact Id",
+                        "name": "Id",
+                        "transcriptFields": [],
+                        "displayToAgent": true
+                    },
+                    {
+                        "label": "Page URL",
+                        "name": "pageURL",
+                        "value": "https://www.nowtv.com/gb/help",
+                        "transcriptFields": [],
+                        "displayToAgent": false
+                    },
+                    {
+                        "label": "Language Code",
+                        "value": "en",
+                        "transcriptFields": [
+                            "Language_Code__c"
+                        ],
+                        "displayToAgent": true,
+                        "name": "Language_Code__c"
+                    },
+                    {
+                        "label": "Customer Tracking ID",
+                        "value": null,
+                        "transcriptFields": [],
+                        "displayToAgent": true,
+                        "name": "Customer_Tracking_ID__c"
+                    }
+                ];
+
+                embedded_svc.settings.extraPrechatInfo = [
+                    {
+                        "entityName": "Case",
+                        "showOnCreate": true,
+                        "saveToTranscript": "CaseId",
+                        "entityFieldMaps": [
+                            {
+                                "fieldName": "Origin",
+                                "label": "Origin",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "ContactId",
+                                "label": "Contact Id",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Help_ContactId__c",
+                                "label": "Help ContactId",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Brand__c",
+                                "label": "Brand",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Subject",
+                                "label": "Subject",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Territory__c",
+                                "label": "Territory",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Customer_Case_Classification__c",
+                                "label": "Customer Case Classification",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Customer_Case_Service_Type__c",
+                                "label": "Customer Case Service Type",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Last_Article_Viewed__c",
+                                "label": "Last Article Viewed",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Logged_In_Status__c",
+                                "label": "Logged In",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Language_Code__c",
+                                "label": "Language Code",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            },
+                            {
+                                "fieldName": "Customer_Tracking_ID__c",
+                                "label": "Customer Tracking ID",
+                                "doFind": false,
+                                "isExactMatch": false,
+                                "doCreate": true
+                            }
+                        ]
+                    },
+                    {
+                        "entityName": "Contact",
+                        "showOnCreate": true,
+                        "linkToEntityName": "Case",
+                        "linkToEntityField": "ContactId",
+                        "saveToTranscript": "ContactId",
+                        "entityFieldMaps": [
+                            {
+                                "fieldName": "Id",
+                                "label": "Contact Id",
+                                "doFind": true,
+                                "isExactMatch": true,
+                                "doCreate": false
+                            }
+                        ]
+                    }
+                ];
+
+                embedded_svc.init(
+                    'https://now-eu--stage.sandbox.my.salesforce.com',
+                    'https://now-eu--stage.sandbox.my.salesforce-sites.com/',
+                    gslbBaseURL,
+                    '00DTA000009UvVV',
+                    'Help_Site',
+                    {
+                        baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-5pakla.salesforceliveagent.com/content',
+                        deploymentId: '572WS000001IFPp',
+                        buttonId: buttonId,  // Dynamic button ID from dropdown selection
+                        baseLiveAgentURL: 'https://d.la12s-core1.sfdc-5pakla.salesforceliveagent.com/chat',
+                        eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04IWS0000001rzx2AA_192f6d7fee2',
+                        isOfflineSupportEnabled: false
+                    }
+                );
+            };
+
+            if (!window.embedded_svc) {
+                var s = document.createElement('script');
+                s.setAttribute('src', 'https://now-eu--stage.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+                s.onload = function() {
+                    initESW(null);
+                };
+                document.body.appendChild(s);
+            } else {
+                initESW('https://service.force.com');
+            }
+        }
+
+        // Initialize territories on page load
+        window.onload = function() {
+            updateTerritories();
+        };
+
+        function loadUrl() {
+            if (!generatedUrl) {
+                alert('Please generate a URL first!');
+                return;
+            }
+
+            // Hide split view and show single iframe
+            hideSplitView();
+
+            // Load the URL in the single iframe
+            const previewFrame = document.getElementById('previewFrame');
+            const placeholder = document.getElementById('placeholderText');
+
+            placeholder.style.display = 'none';
+            previewFrame.style.display = 'block';
+            previewFrame.src = generatedUrl;
+        }
+
+        function loadUrlDirect(url) {
+            // Hide split view and show single iframe
+            hideSplitView();
+
+            // Load a specific URL in the single iframe
+            const previewFrame = document.getElementById('previewFrame');
+            const placeholder = document.getElementById('placeholderText');
+
+            placeholder.style.display = 'none';
+            previewFrame.style.display = 'block';
+            previewFrame.src = url;
+        }
+
+        function hideSplitView() {
+            document.getElementById('splitIframeContainer').classList.remove('active');
+        }
+
+        function showSplitView() {
+            document.getElementById('placeholderText').style.display = 'none';
+            document.getElementById('previewFrame').style.display = 'none';
+            document.getElementById('splitIframeContainer').classList.add('active');
+        }
+
+        // Environment Switcher Functions
+        function updateEnvironmentSwitcher() {
+            const environment = document.getElementById('environment').value;
+            const proposition = document.getElementById('proposition').value;
+            const territoryCode = document.getElementById('territoryCode').value;
+            const languageCode = document.getElementById('languageCode').value;
+            const envSwitcherContainer = document.getElementById('envSwitcherContainer');
+            const openEnglishBtn = document.getElementById('openEnglishBtn');
+
+            // Only show switcher for stage (not for prod or "other")
+            if (environment === 'stage') {
+                envSwitcherContainer.style.display = 'block';
+
+                // Hide "Open English response" button if language code is 'en-US'
+                if (languageCode === 'en-US') {
+                    openEnglishBtn.style.display = 'none';
+                } else {
+                    // Determine if "Open English response" button should be shown
+                    let showEnglishButton = false;
+
+                    if (proposition === 'nbcu') {
+                        // Always show for NBCU when language is not en-US
+                        showEnglishButton = true;
+                    } else if (proposition === 'gold') {
+                        // Show only if territory is NOT gb or ie
+                        showEnglishButton = (territoryCode !== 'gb' && territoryCode !== 'ie');
+                    } else if (proposition === 'showmax') {
+                        // Show only if territory is NOT ng
+                        showEnglishButton = (territoryCode !== 'ng');
+                    }
+
+                    if (showEnglishButton) {
+                        openEnglishBtn.style.display = 'inline-block';
+                    } else {
+                        openEnglishBtn.style.display = 'none';
+                    }
+                }
+            } else {
+                envSwitcherContainer.style.display = 'none';
+            }
+        }
+
+        function openProdResponse() {
+            // Get current environment
+            const currentEnv = document.getElementById('environment').value;
+
+            // Generate URLs for current environment and production
+            const currentUrl = generateUrlForEnvironment(currentEnv);
+            const prodUrl = generateUrlForEnvironment('prod');
+
+            if (!currentUrl || !prodUrl) {
+                alert('Unable to generate URLs');
+                return;
+            }
+
+            // Load both URLs in split view
+            showSplitView();
+
+            // Update panel headers based on current environment
+            const leftPanelHeader = document.querySelector('.iframe-panel:first-child .iframe-panel-header');
+            if (currentEnv === 'stage') {
+                leftPanelHeader.textContent = 'Stage Environment';
+            } else {
+                leftPanelHeader.textContent = 'Current Environment';
+            }
+
+            document.getElementById('stageFrame').src = currentUrl;
+            document.getElementById('prodFrame').src = prodUrl;
+        }
+
+        function openEnglishResponse() {
+            // Get current environment and proposition
+            const currentEnv = document.getElementById('environment').value;
+            const proposition = document.getElementById('proposition').value;
+
+            // Determine English territory based on proposition
+            let englishTerritory = '';
+            if (proposition === 'nbcu') {
+                englishTerritory = 'us';
+            } else if (proposition === 'gold') {
+                englishTerritory = 'gb';
+            } else if (proposition === 'showmax') {
+                englishTerritory = 'ng';
+            }
+
+            // Generate URLs for current territory and English territory
+            const currentUrl = generateUrlForEnvironment(currentEnv);
+            const englishUrl = generateUrlForEnvironmentWithTerritory(currentEnv, englishTerritory);
+
+            if (!currentUrl || !englishUrl) {
+                alert('Unable to generate URLs');
+                return;
+            }
+
+            // Load both URLs in split view
+            showSplitView();
+
+            // Update panel headers
+            const leftPanelHeader = document.querySelector('.iframe-panel:first-child .iframe-panel-header');
+            const rightPanelHeader = document.querySelector('.iframe-panel:last-child .iframe-panel-header');
+
+            const currentTerritory = document.getElementById('territoryCode').value;
+            leftPanelHeader.textContent = `Current Territory (${currentTerritory.toUpperCase()})`;
+            rightPanelHeader.textContent = `English Territory (${englishTerritory.toUpperCase()})`;
+
+            document.getElementById('stageFrame').src = currentUrl;
+            document.getElementById('prodFrame').src = englishUrl;
+        }
+
+        function generateUrlForEnvironment(targetEnvironment) {
+            const viewModelType = document.getElementById('viewModelType').value;
+            const proposition = document.getElementById('proposition').value;
+            const territoryCode = document.getElementById('territoryCode').value;
+            const languageCode = document.getElementById('languageCode').value;
+
+            // Get base URL for the target environment
+            const baseUrl = getBaseUrl(targetEnvironment, proposition, '');
+
+            if (!baseUrl) {
+                return null;
+            }
+
+            // For 'base' view model type, return only the base URL
+            if (viewModelType === 'base') {
+                return baseUrl;
+            }
+
+            // Build the URL with query parameters
+            let params = new URLSearchParams();
+            params.append('view_model_type', viewModelType);
+            params.append('territory_code', territoryCode);
+
+            // Only add language_code for US territory
+            if (territoryCode === 'us') {
+                params.append('language_code', languageCode);
+            }
+
+            // Add user type parameter if territory is US and view model type is home
+            if (territoryCode === 'us' && viewModelType === 'home') {
+                const userType = document.getElementById('userType').value;
+                if (userType) {
+                    params.append('user_type', userType);
+                }
+            }
+
+            // Add specific parameters based on view model type
+            if (viewModelType === 'article') {
+                const articleUrlName = document.getElementById('articleUrlName').value.trim();
+                if (!articleUrlName) {
+                    return null;
+                }
+                params = new URLSearchParams();
+                params.append('view_model_type', 'article');
+                params.append('article_key', articleUrlName);
+                params.append('territory_code', territoryCode);
+                if (territoryCode === 'us') {
+                    params.append('language_code', languageCode);
+                }
+            } else if (viewModelType === 'category') {
+                const categoryName = document.getElementById('categoryName').value.trim();
+                if (!categoryName) {
+                    return null;
+                }
+                params = new URLSearchParams();
+                params.append('view_model_type', 'category');
+                params.append('category_key', categoryName);
+                params.append('territory_code', territoryCode);
+                if (territoryCode === 'us') {
+                    params.append('language_code', languageCode);
+                }
+            }
+
+            return `${baseUrl}?${params.toString()}`;
+        }
+
+        function generateUrlForEnvironmentWithTerritory(targetEnvironment, customTerritory) {
+            const viewModelType = document.getElementById('viewModelType').value;
+            const proposition = document.getElementById('proposition').value;
+
+            // For English response, always use 'en-US' for US territory
+            const languageCode = 'en-US';
+
+            // Get base URL for the target environment
+            const baseUrl = getBaseUrl(targetEnvironment, proposition, '');
+
+            if (!baseUrl) {
+                return null;
+            }
+
+            // For 'base' view model type, return only the base URL
+            if (viewModelType === 'base') {
+                return baseUrl;
+            }
+
+            // Build the URL with query parameters
+            let params = new URLSearchParams();
+            params.append('view_model_type', viewModelType);
+            params.append('territory_code', customTerritory);
+
+            // Only add language_code for US territory (always en-US for English response)
+            if (customTerritory === 'us') {
+                params.append('language_code', languageCode);
+            }
+
+            // Add user type parameter if territory is US and view model type is home
+            if (customTerritory === 'us' && viewModelType === 'home') {
+                const userType = document.getElementById('userType').value;
+                if (userType) {
+                    params.append('user_type', userType);
+                }
+            }
+
+            // Add specific parameters based on view model type
+            if (viewModelType === 'article') {
+                const articleUrlName = document.getElementById('articleUrlName').value.trim();
+                if (!articleUrlName) {
+                    return null;
+                }
+                params = new URLSearchParams();
+                params.append('view_model_type', 'article');
+                params.append('article_key', articleUrlName);
+                params.append('territory_code', customTerritory);
+                if (customTerritory === 'us') {
+                    params.append('language_code', languageCode);
+                }
+            } else if (viewModelType === 'category') {
+                const categoryName = document.getElementById('categoryName').value.trim();
+                if (!categoryName) {
+                    return null;
+                }
+                params = new URLSearchParams();
+                params.append('view_model_type', 'category');
+                params.append('category_key', categoryName);
+                params.append('territory_code', customTerritory);
+                if (customTerritory === 'us') {
+                    params.append('language_code', languageCode);
+                }
+            }
+
+            return `${baseUrl}?${params.toString()}`;
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            updateEnvironmentUrls();
+        });
+
+    </script>
+</body>
+</html>
+
