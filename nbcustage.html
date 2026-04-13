@@ -73,7 +73,9 @@
         "label": "Territory",
         "value": "US",
         "entityMaps": [],
-        "transcriptFields": [],
+        "transcriptFields": [
+            "Territory__c"
+        ],
         "displayToAgent": true,
         "doKnowledgeSearch": false,
         "name": "Territory__c"
@@ -98,7 +100,6 @@
     },
     {
         "label": "Last Article Viewed",
-        "value": "How much does a Peacock subscription cost?",
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -107,6 +108,7 @@
     },
     {
         "label": "Logged In",
+        "value": true,
         "entityMaps": [],
         "transcriptFields": [],
         "displayToAgent": true,
@@ -115,7 +117,7 @@
     },
     {
         "label": "Marketing Cloud Visitor ID",
-        "value": "MCMID%7C42427651961652545361780586031284176145",
+        "value": "MCMID%7C09322215642873857170717839780226780765",
         "transcriptFields": [
             "MarketingCloudVisitorID__c"
         ],
@@ -124,6 +126,7 @@
     },
     {
         "label": "Help ContactId",
+        "value": "003WF000014SRtlYAG",
         "transcriptFields": [
             "Help_ContactId__c"
         ],
@@ -133,34 +136,34 @@
     {
         "label": "Contact Id",
         "name": "Id",
+        "value": "003WF000014SRtlYAG",
         "transcriptFields": [],
         "displayToAgent": true
     },
     {
         "label": "Page URL",
         "name": "pageURL",
-        "value": "https://www.stable-int.peacocktv.com/help/article/how-much-does-a-peacock-subscription-cost",
+        "value": "https://local.peacocktv.com/help/get-in-touch/getting-started/intro-to-peacock",
         "transcriptFields": [],
         "displayToAgent": false
     },
     {
         "label": "Language Code",
-        "value": "es-US",
+        "value": "es",
         "transcriptFields": [
-            "Language_Code__c"
+            null
         ],
         "displayToAgent": true,
         "name": "Language_Code__c"
     },
     {
         "label": "Customer Tracking ID",
-        "value": null,
+        "value": "G19cwObs70wMMtWJKM32NcKyNau8QELCuvnBKv62WsE=",
         "transcriptFields": [],
         "displayToAgent": true,
         "name": "Customer_Tracking_ID__c"
     }
 ];
-
     embedded_svc.settings.extraPrechatInfo = [
     {
         "entityName": "Case",
@@ -270,7 +273,6 @@
         ]
     }
 ];
-
 		embedded_svc.init(
 			'https://ott-nbcu--stage.sandbox.my.salesforce.com',
 			'https://ott-nbcu--stage.sandbox.my.salesforce-sites.com/',
