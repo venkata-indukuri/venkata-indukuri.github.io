@@ -29,18 +29,13 @@
 		'IT': { languageCode: 'it',    territoryCode: 'IT' }
 	};
 
-	var selectedLanguageCode = '';
-	var selectedTerritoryCode = '';
 	var chatInitialized = false;
-
-
 
 	function onTerritoryChange() {
 		var selected = document.getElementById('territorySelect').value;
 		if (!selected) return;
 
 		if (chatInitialized) {
-			// Reload the page to reinitialise the chat widget with the new territory
 			sessionStorage.setItem('miaw_territory', selected);
 			location.reload();
 			return;
@@ -51,8 +46,6 @@
 	}
 
 	function initEmbeddedMessaging(territoryCode, languageCode) {
-		selectedTerritoryCode = territoryCode;
-		selectedLanguageCode  = languageCode;
 		try {
 			embeddedservice_bootstrap.settings.language = languageCode;
 			embeddedservice_bootstrap.init(
@@ -69,20 +62,17 @@
 		}
 	}
 
-</script>
-<script type='text/javascript' src='https://now-eu--miawsb.sandbox.my.site.com/ESWHelpMessagingSession1777389233560/assets/js/bootstrap.min.js'></script>
-<script type='text/javascript'>
-	// Restore territory selection after a reload-triggered widget reset
-	// Runs after bootstrap.min.js has fully loaded
-	(function() {
+	function onBootstrapLoaded() {
 		var savedTerritory = sessionStorage.getItem('miaw_territory');
 		if (savedTerritory) {
 			sessionStorage.removeItem('miaw_territory');
 			document.getElementById('territorySelect').value = savedTerritory;
 			onTerritoryChange();
 		}
-	})();
+	}
+
 </script>
+<script type='text/javascript' src='https://now-eu--miawsb.sandbox.my.site.com/ESWHelpMessagingSession1777389233560/assets/js/bootstrap.min.js' onload='onBootstrapLoaded()'></script>
 
 </body>
 </html>
