@@ -42,7 +42,17 @@
 		}
 
 		var config = territoryConfig[selected];
-		initEmbeddedMessaging(config.territoryCode, config.languageCode);
+		loadBootstrap(config.territoryCode, config.languageCode);
+	}
+
+	function loadBootstrap(territoryCode, languageCode) {
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'https://now-eu--miawsb.sandbox.my.site.com/ESWHelpMessagingSession1777389233560/assets/js/bootstrap.min.js';
+		script.onload = function() {
+			initEmbeddedMessaging(territoryCode, languageCode);
+		};
+		document.body.appendChild(script);
 	}
 
 	function initEmbeddedMessaging(territoryCode, languageCode) {
@@ -62,17 +72,18 @@
 		}
 	}
 
-	function onBootstrapLoaded() {
+	// Restore territory after reload — runs before bootstrap is loaded
+	(function() {
 		var savedTerritory = sessionStorage.getItem('miaw_territory');
 		if (savedTerritory) {
 			sessionStorage.removeItem('miaw_territory');
 			document.getElementById('territorySelect').value = savedTerritory;
-			onTerritoryChange();
+			var config = territoryConfig[savedTerritory];
+			loadBootstrap(config.territoryCode, config.languageCode);
 		}
-	}
+	})();
 
 </script>
-<script type='text/javascript' src='https://now-eu--miawsb.sandbox.my.site.com/ESWHelpMessagingSession1777389233560/assets/js/bootstrap.min.js' onload='onBootstrapLoaded()'></script>
 
 </body>
 </html>
