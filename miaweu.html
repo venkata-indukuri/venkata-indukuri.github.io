@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,94 +32,82 @@
 		'IT': { languageCode: 'it',    territoryCode: 'IT' }
 	};
 
+	var selectedLanguageCode = '';
+	var selectedTerritoryCode = '';
+	var chatInitialized = false;
+
+	// Registered once — no repeated addEventListener on territory change
+	window.addEventListener('onEmbeddedMessagingReady', function() {
+		console.log('Inside Prechat API!!');
+
+		var fetchBrowserName = function() {
+			var browserInfo = navigator.userAgent;
+			var browserName;
+			if (browserInfo.includes('Opera') || browserInfo.includes('Opr')) {
+				browserName = 'Opera';
+			} else if (browserInfo.includes('Edg')) {
+				browserName = 'Edge';
+			} else if (browserInfo.includes('Chrome')) {
+				browserName = 'Chrome';
+			} else if (browserInfo.includes('Safari')) {
+				browserName = 'Safari';
+			} else if (browserInfo.includes('Firefox')) {
+				browserName = 'Firefox';
+			} else {
+				browserName = 'unknown';
+			}
+			return browserName;
+		};
+
+		var browserName = fetchBrowserName();
+		console.log('Browser Name is', browserName);
+		var browserLanguage = navigator.language;
+		console.log('Browser Language is', browserLanguage);
+		var browserPlatform = navigator.platform;
+		console.log('Browser Platform is', browserPlatform);
+
+		embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+			'Browser_Name'              : browserName,
+			'Browser_Language'          : browserLanguage,
+			'Browser_Platform'          : browserPlatform,
+			'Case_Subject'              : 'Subject: Miaw Chat',
+			'Language_Code'             : selectedLanguageCode,
+			'Territory_Code'            : selectedTerritoryCode,
+			'Case_Classification'       : 'Billing Issue',
+			'Case_ServiceType'          : 'TV',
+			'Case_Type'                 : 'Technical Problem',
+			'Contact_ID'                : '',
+			'Last_Article_Viewed'       : 'https://www.nowtv.com/gb/help/article/sports-membership',
+			'Logged_In_Status'          : 'false',
+			'Customer_Tracking_ID'      : '234729348204982',
+			'Page_URL'                  : 'https://www.nowtv.com/gb/help/article/sports-membership',
+			'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+			'Get_In_Touch'              : 'False',
+			'Case_Origin'               : 'Chat',
+			'User_Agent'                : 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
+		});
+	});
+
 	function onTerritoryChange() {
 		var selected = document.getElementById('territorySelect').value;
 		if (!selected) return;
+
+		if (chatInitialized) {
+			// Reload the page to reinitialise the chat widget with the new territory
+			sessionStorage.setItem('miaw_territory', selected);
+			location.reload();
+			return;
+		}
+
 		var config = territoryConfig[selected];
 		initEmbeddedMessaging(config.territoryCode, config.languageCode);
 	}
 
 	function initEmbeddedMessaging(territoryCode, languageCode) {
+		selectedTerritoryCode = territoryCode;
+		selectedLanguageCode  = languageCode;
 		try {
-			embeddedservice_bootstrap.settings.language = languageCode; // For example, enter 'en' or 'en-US'
-
-			window.addEventListener("onEmbeddedMessagingReady", () => {
-            
-	console.log( "Inside Prechat API!!" );
-	const fetchBrowserName = () => {
-
-		let browserInfo = navigator.userAgent;
-		let browserName;
-		if ( 
-			browserInfo.includes('Opera') || 
-			browserInfo.includes('Opr') 
-		) {
-		
-			browserName = 'Opera';
-			
-		} else if ( browserInfo.includes( 'Edg' ) ) {
-		
-			browserName = 'Edge';
-			
-		} else if (browserInfo.includes( 'Chrome' ) ) {
-		
-			browserName = 'Chrome';
-			
-		} else if ( browserInfo.includes( 'Safari' ) ) {
-		
-			browserName = 'Safari';
-			
-		} else if ( browserInfo.includes( 'Firefox' ) ) {
-		
-			browserName= 'Firefox';
-			
-		} else {
-		
-			browserName = 'unknown';
-			
-		}
-		return browserName;
-		
-	}
-
-	const browserName = fetchBrowserName();
-	console.log(
-		'Browser Name is',
-		browserName
-	);
-	const browserLanguage = navigator.language;
-	console.log(
-		'Browser Language is',
-		browserLanguage
-	);
-	const browserPlatform = navigator.platform;
-	console.log(
-		'Browser Platform is',
-		browserPlatform
-	);
-	embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields( { 
-		'Browser_Name' : browserName,  	
-		'Browser_Language' : browserLanguage,  	
-		'Browser_Platform' : browserPlatform,
-		'Case_Subject': 'Subject: Miaw Chat',
-		'Language_Code' : languageCode,
-		'Territory_Code' : territoryCode,
-		'Case_Classification' : 'Billing Issue',
-		'Case_ServiceType' : 'TV',
-		'Case_Type' : 'Technical Problem',
-		'Contact_ID' : '',
-		'Last_Article_Viewed' : 'https://www.nowtv.com/gb/help/article/sports-membership',
-		'Logged_In_Status' : 'false',
-		'Customer_Tracking_ID' : '234729348204982',
-		'Page_URL' : 'https://www.nowtv.com/gb/help/article/sports-membership',
-		'MarketingCloud_Visitor_ID' : '234j3453lk2343',
-		'Get_In_Touch' : 'False',
-		'Case_Origin' : 'Chat',
-		'User_Agent' : 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36'
-	} );
-	
-});
-
+			embeddedservice_bootstrap.settings.language = languageCode;
 			embeddedservice_bootstrap.init(
 				'00DAd00000EJCyI',
 				'Help_Messaging_Session',
@@ -127,10 +116,21 @@
 					scrt2URL: 'https://now-eu--miawsb.sandbox.my.salesforce-scrt.com'
 				}
 			);
+			chatInitialized = true;
 		} catch (err) {
 			console.error('Error loading Embedded Messaging: ', err);
 		}
-	};
+	}
+
+	// Restore territory selection after a reload-triggered widget reset
+	window.addEventListener('load', function() {
+		var savedTerritory = sessionStorage.getItem('miaw_territory');
+		if (savedTerritory) {
+			sessionStorage.removeItem('miaw_territory');
+			document.getElementById('territorySelect').value = savedTerritory;
+			onTerritoryChange();
+		}
+	});
 </script>
 <script type='text/javascript' src='https://now-eu--miawsb.sandbox.my.site.com/ESWHelpMessagingSession1777389233560/assets/js/bootstrap.min.js'></script>
 
