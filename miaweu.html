@@ -82,6 +82,30 @@
 	function initEmbeddedMessaging(territoryCode, languageCode) {
 		try {
 			embeddedservice_bootstrap.settings.language = languageCode;
+
+			window.addEventListener('onEmbeddedMessagingReady', function() {
+				embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+					'Browser_Name'              : fetchBrowserName(),
+					'Browser_Language'          : navigator.language,
+					'Browser_Platform'          : navigator.platform,
+					'Case_Subject'              : 'Subject: Miaw Chat',
+					'Language_Code'             : languageCode,
+					'Territory_Code'            : territoryCode,
+					'Case_Classification'       : 'Billing Issue',
+					'Case_ServiceType'          : 'TV',
+					'Case_Type'                 : 'Technical Problem',
+					'Contact_ID'                : '',
+					'Last_Article_Viewed'       : 'https://www.nowtv.com/gb/help/article/sports-membership',
+					'Logged_In_Status'          : 'false',
+					'Customer_Tracking_ID'      : '234729348204982',
+					'Page_URL'                  : 'https://www.nowtv.com/gb/help/article/sports-membership',
+					'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+					'Get_In_Touch'              : 'False',
+					'Case_Origin'               : 'Chat',
+					'User_Agent'                : navigator.userAgent
+				});
+			});
+
 			embeddedservice_bootstrap.init(
 				'00DAd00000EJCyI',
 				'Help_Messaging_Session',
@@ -90,26 +114,6 @@
 					scrt2URL: 'https://now-eu--miawsb.sandbox.my.salesforce-scrt.com'
 				}
 			);
-			embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-				'Browser_Name'              : fetchBrowserName(),
-				'Browser_Language'          : navigator.language,
-				'Browser_Platform'          : navigator.platform,
-				'Case_Subject'              : 'Subject: Miaw Chat',
-				'Language_Code'             : languageCode,
-				'Territory_Code'            : territoryCode,
-				'Case_Classification'       : 'Billing Issue',
-				'Case_ServiceType'          : 'TV',
-				'Case_Type'                 : 'Technical Problem',
-				'Contact_ID'                : '',
-				'Last_Article_Viewed'       : 'https://www.nowtv.com/gb/help/article/sports-membership',
-				'Logged_In_Status'          : 'false',
-				'Customer_Tracking_ID'      : '234729348204982',
-				'Page_URL'                  : 'https://www.nowtv.com/gb/help/article/sports-membership',
-				'MarketingCloud_Visitor_ID' : '234j3453lk2343',
-				'Get_In_Touch'              : 'False',
-				'Case_Origin'               : 'Chat',
-				'User_Agent'                : navigator.userAgent
-			});
 			chatInitialized = true;
 		} catch (err) {
 			console.error('Error loading Embedded Messaging: ', err);
