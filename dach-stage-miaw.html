@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +35,15 @@
 		<option value="DE">DE - Germany</option>
 		<option value="AT">AT - Austria</option>
 	</select>
+
+	<select id="helpSourceSelect" onchange="onHelpSourceChange()" style="font-size:16px; padding:8px 16px; border-radius:6px; border:1px solid #ccc; margin-top:16px; margin-left:12px;">
+		<option value="" disabled selected>-- Select Help Source --</option>
+		<option value="homePage">homePage</option>
+		<option value="articlePage">articlePage</option>
+		<option value="refundPage">refundPage</option>
+		<option value="getInTouchPageSignedIn">getInTouchPageSignedIn</option>
+		<option value="getInTouchPageSignedOut">getInTouchPageSignedOut</option>
+	</select>
 </center>
 
 <script type='text/javascript'>
@@ -48,22 +58,37 @@
 		var selected = document.getElementById('territorySelect').value;
 		if (!selected) return;
 
+		var helpSource = document.getElementById('helpSourceSelect').value;
+
 		if (chatInitialized) {
 			sessionStorage.setItem('miaw_territory', selected);
+			sessionStorage.setItem('miaw_helpSource', helpSource || 'homePage');
 			location.reload();
 			return;
 		}
 
 		var config = territoryConfig[selected];
-		loadBootstrap(config.territoryCode, config.languageCode);
+		loadBootstrap(config.territoryCode, config.languageCode, helpSource || 'homePage');
 	}
 
-	function loadBootstrap(territoryCode, languageCode) {
+	function onHelpSourceChange() {
+		var helpSource = document.getElementById('helpSourceSelect').value;
+		if (!helpSource) return;
+
+		if (chatInitialized) {
+			var territory = document.getElementById('territorySelect').value;
+			sessionStorage.setItem('miaw_territory', territory);
+			sessionStorage.setItem('miaw_helpSource', helpSource);
+			location.reload();
+		}
+	}
+
+	function loadBootstrap(territoryCode, languageCode, helpSource) {
 		var script = document.createElement('script');
 		script.type = 'text/javascript';
 		script.src = 'https://ott-dach--stage.sandbox.my.site.com/ESWHelpCRMMessagingCha1778141106563/assets/js/bootstrap.min.js';
 		script.onload = function() {
-			initEmbeddedMessaging(territoryCode, languageCode);
+			initEmbeddedMessaging(territoryCode, languageCode, helpSource);
 		};
 		document.body.appendChild(script);
 	}
@@ -78,7 +103,7 @@
 		return 'unknown';
 	}
 
-	function initEmbeddedMessaging(territoryCode, languageCode) {
+	function initEmbeddedMessaging(territoryCode, languageCode, helpSource) {
 		try {
 			embeddedservice_bootstrap.settings.language = languageCode;
 
@@ -99,10 +124,9 @@
 					'Customer_Tracking_ID'      : '234729348204982',
 					'Page_URL'                  : 'https://www.nowtv.com/gb/help/article/sports-membership',
 					'MarketingCloud_Visitor_ID' : '234j3453lk2343',
-					'Get_In_Touch'              : 'False',
 					'Case_Origin'               : 'Chat',
 					'User_Agent'                : navigator.userAgent,
-					'Help_Source'				: 'homePage'
+					'Help_Source'				: helpSource
 				});
 			});
 
@@ -120,14 +144,17 @@
 		}
 	}
 
-	// Restore territory after reload — runs before bootstrap is loaded
+	// Restore territory and help source after reload — runs before bootstrap is loaded
 	(function() {
 		var savedTerritory = sessionStorage.getItem('miaw_territory');
 		if (savedTerritory) {
+			var savedHelpSource = sessionStorage.getItem('miaw_helpSource') || 'homePage';
 			sessionStorage.removeItem('miaw_territory');
+			sessionStorage.removeItem('miaw_helpSource');
 			document.getElementById('territorySelect').value = savedTerritory;
+			document.getElementById('helpSourceSelect').value = savedHelpSource;
 			var config = territoryConfig[savedTerritory];
-			loadBootstrap(config.territoryCode, config.languageCode);
+			loadBootstrap(config.territoryCode, config.languageCode, savedHelpSource);
 		}
 	})();
 
