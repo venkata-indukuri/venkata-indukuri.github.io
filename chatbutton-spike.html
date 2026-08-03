@@ -17,11 +17,6 @@
 			border: 0 !important;
 		}
 
-		/* Hide the default MIAW floating button — we use our own custom button below */
-		#embeddedMessagingFrame {
-			display: none !important;
-		}
-
 		/* ── Chat tile ─────────────────────────────────────────────────────────── */
 		.chat-tile-wrapper {
 			display: flex;
@@ -180,6 +175,18 @@
 		try {
 			embeddedservice_bootstrap.settings.language = languageCode;
 
+			// Hide the default SF floating button on load via the official API
+			embeddedservice_bootstrap.settings.hideChatButtonOnLoad = true;
+
+			// Once MIAW creates its button, immediately hide it so our custom button stays in control
+			window.addEventListener('onEmbeddedMessagingButtonCreated', function() {
+				embeddedservice_bootstrap.utilAPI.hideChatButton();
+			});
+
+			window.addEventListener('onEmbeddedMessagingReady', function() {
+				embeddedMessagingReady = true;
+			});
+
 			embeddedservice_bootstrap.init(
 				'00DWG000006aIFt',
 				'Help_CRM_Messaging_Channel',
@@ -189,10 +196,6 @@
 				}
 			);
 			chatInitialized = true;
-
-			window.addEventListener('onEmbeddedMessagingReady', function() {
-				embeddedMessagingReady = true;
-			});
 		} catch (err) {
 			console.error('Error loading Embedded Messaging: ', err);
 		}
