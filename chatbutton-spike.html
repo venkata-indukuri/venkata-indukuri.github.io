@@ -22,65 +22,8 @@
 			display: none !important;
 		}
 
-		/* ── Chat Widget Tile ─────────────────────────────────────── */
-		.chat-tile-wrapper {
-			margin: 32px auto;
-			max-width: 340px;
-		}
-
-		.chat-tile {
-			background: #ffffff;
-			border: 1px solid #d8dde6;
-			border-radius: 12px;
-			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
-			padding: 28px 24px;
-			text-align: center;
-			font-family: 'Salesforce Sans', Arial, sans-serif;
-		}
-
-		.chat-tile__icon {
-			font-size: 40px;
-			margin-bottom: 12px;
-			display: block;
-		}
-
-		.chat-tile__title {
-			font-size: 18px;
-			font-weight: 700;
-			color: #16325c;
-			margin: 0 0 8px;
-		}
-
-		.chat-tile__subtitle {
-			font-size: 14px;
-			color: #54698d;
-			margin: 0 0 20px;
-		}
-
-		.chat-tile__badge {
-			display: inline-flex;
-			align-items: center;
-			gap: 6px;
-			background: #e8f5e9;
-			color: #2e7d32;
-			font-size: 12px;
-			font-weight: 600;
-			border-radius: 20px;
-			padding: 4px 12px;
-			margin-bottom: 20px;
-		}
-
-		.chat-tile__badge::before {
-			content: '';
-			display: inline-block;
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
-			background: #43a047;
-		}
-
-		.chat-tile__btn {
-			display: inline-block;
+		#chatWithUsBtn {
+			display: none;
 			background: #0070d2;
 			color: #ffffff;
 			font-size: 15px;
@@ -90,38 +33,15 @@
 			border-radius: 6px;
 			cursor: pointer;
 			transition: background 0.2s ease;
-			width: 100%;
 		}
 
-		.chat-tile__btn:hover {
-			background: #005fb2;
-		}
-
-		.chat-tile__btn:active {
-			background: #004f99;
-		}
-
-		#chatWithUsBtn {
-			display: none; /* Hidden until agent availability is confirmed */
-		}
+		#chatWithUsBtn:hover { background: #005fb2; }
+		#chatWithUsBtn:active { background: #004f99; }
 	</style>
 </head>
 <body>
 
-	<h1> <center>NBCU Stage EnhancedChat </center></h1> 
-
-<div class="chat-tile-wrapper">
-	<div class="chat-tile">
-		<span class="chat-tile__icon">💬</span>
-		<h2 class="chat-tile__title">Need help?</h2>
-		<p class="chat-tile__subtitle">Our agents are online and ready to assist you.</p>
-		<div class="chat-tile__badge">Agents available</div>
-		<br>
-		<button class="chat-tile__btn" id="chatWithUsBtn" onclick="launchCustomChat()">
-			Chat with us
-		</button>
-	</div>
-</div>
+	<button id="chatWithUsBtn" onclick="launchCustomChat()">Chat with us</button>
 
 <script type='text/javascript'>
 	var chatInitialized = false;
@@ -131,7 +51,7 @@
 		fetch('https://ott-nbcu--stage.sandbox.my.salesforce-scrt.com/embeddedservice/v2/agent-availability?orgId=00DWG000006aIFt&esConfigName=Help_CRM_Messaging_Channel')
 			.then(function(response) { return response.json(); })
 			.then(function(data) {
-				if (data && data.success && data.response && data.response.agentAvailable === true) {
+				if (data && data.agentAvailable === true) {
 					var btn = document.getElementById('chatWithUsBtn');
 					if (btn) { btn.style.display = 'block'; }
 				}
