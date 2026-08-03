@@ -24,7 +24,6 @@
 
 		/* ── Chat Widget Tile ─────────────────────────────────────── */
 		.chat-tile-wrapper {
-			display: none; /* Hidden until onEmbeddedMessagingButtonCreated fires */
 			margin: 32px auto;
 			max-width: 340px;
 		}
@@ -101,6 +100,10 @@
 		.chat-tile__btn:active {
 			background: #004f99;
 		}
+
+		#chatWithUsBtn {
+			display: none; /* Hidden until agent availability is confirmed */
+		}
 	</style>
 </head>
 <body>
@@ -123,15 +126,19 @@
 <script type='text/javascript'>
 	var chatInitialized = false;
 
-	// ── Chat tile visibility ────────────────────────────────────────────────
-	function showChatWidget() {
-		var wrapper = document.querySelector('.chat-tile-wrapper');
-		if (wrapper) { wrapper.style.display = ''; }
-	}
-
-	function hideChatWidget() {
-		var wrapper = document.querySelector('.chat-tile-wrapper');
-		if (wrapper) { wrapper.style.display = 'none'; }
+	// ── Agent availability check ────────────────────────────────────────────
+	function checkAgentAvailability() {
+		fetch('https://ott-nbcu--stage.sandbox.my.salesforce-scrt.com/embeddedservice/v2/agent-availability?orgId=00DWG000006aIFt&esConfigName=Help_CRM_Messaging_Channel')
+			.then(function(response) { return response.json(); })
+			.then(function(data) {
+				if (data && data.isAgentAvailable === true) {
+					var btn = document.getElementById('chatWithUsBtn');
+					if (btn) { btn.style.display = ''; }
+				}
+			})
+			.catch(function(err) {
+				console.error('Error checking agent availability: ', err);
+			});
 	}
 
 	function loadBootstrap(territoryCode, languageCode) {
@@ -193,11 +200,6 @@
 		try {
 			embeddedservice_bootstrap.settings.language = languageCode;
 
-			// Show tile when chat button is ready; hide/restore around maximised window
-			window.addEventListener('onEmbeddedMessagingButtonCreated', showChatWidget);
-			window.addEventListener('onEmbeddedMessagingWindowMaximized', hideChatWidget);
-			window.addEventListener('onEmbeddedMessagingWindowMinimized', showChatWidget);
-
 			embeddedservice_bootstrap.init(
 				'00DWG000006aIFt',
 				'Help_CRM_Messaging_Channel',
@@ -212,6 +214,7 @@
 		}
 	}
 
+	checkAgentAvailability();
 	loadBootstrap('US', 'en_US');
 
 </script>
