@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NBCU Stage EnhancedChat</title>
+
+	<style>
+		/* Hide Salesforce MIAW aria-live announcer regions — screen-reader only, not visually rendered */
+		[id^="embeddedMessagingLiveRegion"] {
+			position: absolute !important;
+			width: 1px !important;
+			height: 1px !important;
+			padding: 0 !important;
+			margin: -1px !important;
+			overflow: hidden !important;
+			clip: rect(0, 0, 0, 0) !important;
+			white-space: nowrap !important;
+			border: 0 !important;
+		}
+
+		/* Hide the default MIAW floating button — we use our own custom button below */
+		#embeddedMessagingFrame {
+			display: none !important;
+		}
+
+		/* ── Chat Widget Tile ─────────────────────────────────────── */
+		#chatWidget {
+			display: none; /* shown by JS when onEmbeddedMessagingButtonCreated fires */
+			margin: 32px auto;
+			max-width: 340px;
+		}
+
+		.chat-tile {
+			background: #ffffff;
+			border: 1px solid #d8dde6;
+			border-radius: 12px;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+			padding: 28px 24px;
+			text-align: center;
+			font-family: 'Salesforce Sans', Arial, sans-serif;
+		}
+
+		.chat-tile__icon {
+			font-size: 40px;
+			margin-bottom: 12px;
+			display: block;
+		}
+
+		.chat-tile__title {
+			font-size: 18px;
+			font-weight: 700;
+			color: #16325c;
+			margin: 0 0 8px;
+		}
+
+		.chat-tile__subtitle {
+			font-size: 14px;
+			color: #54698d;
+			margin: 0 0 20px;
+		}
+
+		.chat-tile__badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			background: #e8f5e9;
+			color: #2e7d32;
+			font-size: 12px;
+			font-weight: 600;
+			border-radius: 20px;
+			padding: 4px 12px;
+			margin-bottom: 20px;
+		}
+
+		.chat-tile__badge::before {
+			content: '';
+			display: inline-block;
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #43a047;
+		}
+
+		.chat-tile__btn {
+			display: inline-block;
+			background: #0070d2;
+			color: #ffffff;
+			font-size: 15px;
+			font-weight: 600;
+			padding: 12px 28px;
+			border: none;
+			border-radius: 6px;
+			cursor: pointer;
+			transition: background 0.2s ease;
+			width: 100%;
+		}
+
+		.chat-tile__btn:hover {
+			background: #005fb2;
+		}
+
+		.chat-tile__btn:active {
+			background: #004f99;
+		}
+	</style>
+</head>
+<body>
+
+	<h1> <center>NBCU Stage EnhancedChat </center></h1> 
+  
+	
+	<center>
+<img src="https://www.fineartcanvas.com/cdn/shop/files/0189830.jpg?v=1722956067&width=1240">	</center>
+
+
+<!-- ── Chat Widget Tile ────────────────────────────────────────────────────
+     Hidden on load. Becomes visible when onEmbeddedMessagingButtonCreated
+     fires, which means chat is available (agents online, business hours met,
+     routing capacity exists). See:
+     https://help.salesforce.com/s/articleView?id=service.miaw_chat_button_visibility.htm
+──────────────────────────────────────────────────────────────────────────── -->
+<div id="chatWidget">
+	<div class="chat-tile">
+		<span class="chat-tile__icon">💬</span>
+		<h2 class="chat-tile__title">Need help?</h2>
+		<p class="chat-tile__subtitle">Our agents are online and ready to assist you.</p>
+		<div class="chat-tile__badge">Agents available</div>
+		<br>
+		<button class="chat-tile__btn" id="chatWithUsBtn" onclick="launchCustomChat()">
+			Chat with us
+		</button>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	var chatInitialized = false;
+
+	function loadBootstrap(territoryCode, languageCode) {
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'https://ott-nbcu--stage.sandbox.my.site.com/ESWHelpCRMMessagingCha1782370969859/assets/js/bootstrap.min.js';
+		script.onload = function() {
+			initEmbeddedMessaging(territoryCode, languageCode);
+		};
+		document.body.appendChild(script);
+	}
+
+	function fetchBrowserName() {
+		var browserInfo = navigator.userAgent;
+		if (browserInfo.includes('Opera') || browserInfo.includes('Opr')) return 'Opera';
+		if (browserInfo.includes('Edg'))     return 'Edge';
+		if (browserInfo.includes('Chrome'))  return 'Chrome';
+		if (browserInfo.includes('Safari'))  return 'Safari';
+		if (browserInfo.includes('Firefox')) return 'Firefox';
+		return 'unknown';
+	}
+
+	// ── Custom chat button helpers ──────────────────────────────────────────
+
+	/**
+	 * Shows the chat widget tile.
+	 * Called when onEmbeddedMessagingButtonCreated fires, which signals that
+	 * chat is available based on business hours, agent availability, and
+	 * routing capacity — matching the platform's own button-visibility rules.
+	 * Ref: https://help.salesforce.com/s/articleView?id=service.miaw_chat_button_visibility.htm
+	 */
+	function showChatWidget() {
+		var widget = document.getElementById('chatWidget');
+		if (widget) widget.style.display = 'block';
+	}
+
+	/** Hides the chat widget tile (e.g. while the chat window is open). */
+	function hideChatWidget() {
+		var widget = document.getElementById('chatWidget');
+		if (widget) widget.style.display = 'none';
+	}
+
+	/**
+	 * Programmatically opens the MIAW chat window when the custom button is clicked.
+	 * embeddedservice_bootstrap.utilAPI.launchChat() is the supported API for
+	 * triggering the chat from a custom button.
+	 */
+	function launchCustomChat() {
+		try {
+			embeddedservice_bootstrap.utilAPI.launchChat();
+		} catch (err) {
+			console.error('Error launching chat: ', err);
+		}
+	}
+
+	// ── MIAW initialisation ─────────────────────────────────────────────────
+
+	function initEmbeddedMessaging(territoryCode, languageCode) {
+		try {
+			embeddedservice_bootstrap.settings.language = languageCode;
+
+			// Set hidden prechat fields once the SDK is fully ready.
+			window.addEventListener('onEmbeddedMessagingReady', function() {
+				embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+					'Browser_Name'              : fetchBrowserName(),
+					'Browser_Language'          : navigator.language,
+					'Browser_Platform'          : navigator.platform,
+					'Case_Subject'              : 'Subject: Miaw Chat',
+					'Language_Code'             : languageCode,
+					'Territory_Code'            : territoryCode,
+					'Case_Classification'       : 'Billing Issue',
+					'Case_ServiceType'          : 'TV',
+					'Case_Type'                 : 'Technical Problem',
+					'Contact_ID'                : '003Ad00000yzF61IAE',
+					'Last_Article_Viewed'       : 'https://www.nowtv.com/gb/help/article/sports-membership',
+					'Logged_In_Status'          : 'true',
+					'Customer_Tracking_ID'      : '234729348204982',
+					'Page_URL'                  : 'https://www.nowtv.com/gb/help/article/sports-membership',
+					'MarketingCloud_Visitor_ID' : '234j3453lk2343',
+					'Get_In_Touch'              : 'False',
+					'Case_Origin'               : 'Chat',
+					'User_Agent'                : navigator.userAgent,
+					'Help_Source'               : 'getInTouchPageSignedIn'
+				});
+			});
+
+			// Show the custom button tile when MIAW determines chat is available
+			// (business hours, agent capacity, routing rules all satisfied).
+			window.addEventListener('onEmbeddedMessagingButtonCreated', showChatWidget);
+
+			// Hide the tile while the chat window is maximised (open).
+			window.addEventListener('onEmbeddedMessagingWindowMaximized', hideChatWidget);
+
+			// Restore the tile when the user minimises the chat window.
+			window.addEventListener('onEmbeddedMessagingWindowMinimized', showChatWidget);
+
+			embeddedservice_bootstrap.init(
+				'00DWG000006aIFt',
+				'Help_CRM_Messaging_Channel',
+				'https://ott-nbcu--stage.sandbox.my.site.com/ESWHelpCRMMessagingCha1782370969859',
+				{
+					scrt2URL: 'https://ott-nbcu--stage.sandbox.my.salesforce-scrt.com'
+				}
+			);
+			chatInitialized = true;
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	}
+
+	loadBootstrap('US', 'en_US');
+
+</script>
+
+</body>
+</html>
