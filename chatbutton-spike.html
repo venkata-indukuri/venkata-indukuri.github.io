@@ -23,8 +23,8 @@
 		}
 
 		/* ── Chat Widget Tile ─────────────────────────────────────── */
-		#chatWidget {
-			display: none; /* shown by JS when onEmbeddedMessagingButtonCreated fires */
+		.chat-tile-wrapper {
+			display: none; /* Hidden until onEmbeddedMessagingButtonCreated fires */
 			margin: 32px auto;
 			max-width: 340px;
 		}
@@ -106,19 +106,8 @@
 <body>
 
 	<h1> <center>NBCU Stage EnhancedChat </center></h1> 
-  
-	
-	<center>
-<img src="https://www.fineartcanvas.com/cdn/shop/files/0189830.jpg?v=1722956067&width=1240">	</center>
 
-
-<!-- ── Chat Widget Tile ────────────────────────────────────────────────────
-     Hidden on load. Becomes visible when onEmbeddedMessagingButtonCreated
-     fires, which means chat is available (agents online, business hours met,
-     routing capacity exists). See:
-     https://help.salesforce.com/s/articleView?id=service.miaw_chat_button_visibility.htm
-──────────────────────────────────────────────────────────────────────────── -->
-<div id="chatWidget">
+<div class="chat-tile-wrapper">
 	<div class="chat-tile">
 		<span class="chat-tile__icon">💬</span>
 		<h2 class="chat-tile__title">Need help?</h2>
@@ -133,6 +122,17 @@
 
 <script type='text/javascript'>
 	var chatInitialized = false;
+
+	// ── Chat tile visibility ────────────────────────────────────────────────
+	function showChatWidget() {
+		var wrapper = document.querySelector('.chat-tile-wrapper');
+		if (wrapper) { wrapper.style.display = ''; }
+	}
+
+	function hideChatWidget() {
+		var wrapper = document.querySelector('.chat-tile-wrapper');
+		if (wrapper) { wrapper.style.display = 'none'; }
+	}
 
 	function loadBootstrap(territoryCode, languageCode) {
 		var script = document.createElement('script');
@@ -154,33 +154,33 @@
 		return 'unknown';
 	}
 
-	// ── Custom chat button helpers ──────────────────────────────────────────
-
-	/**
-	 * Shows the chat widget tile.
-	 * Called when onEmbeddedMessagingButtonCreated fires, which signals that
-	 * chat is available based on business hours, agent availability, and
-	 * routing capacity — matching the platform's own button-visibility rules.
-	 * Ref: https://help.salesforce.com/s/articleView?id=service.miaw_chat_button_visibility.htm
-	 */
-	function showChatWidget() {
-		var widget = document.getElementById('chatWidget');
-		if (widget) widget.style.display = 'block';
-	}
-
-	/** Hides the chat widget tile (e.g. while the chat window is open). */
-	function hideChatWidget() {
-		var widget = document.getElementById('chatWidget');
-		if (widget) widget.style.display = 'none';
-	}
-
 	/**
 	 * Programmatically opens the MIAW chat window when the custom button is clicked.
-	 * embeddedservice_bootstrap.utilAPI.launchChat() is the supported API for
-	 * triggering the chat from a custom button.
+	 * Sets hidden pre-chat fields first, then calls the supported launchChat() API.
 	 */
 	function launchCustomChat() {
 		try {
+			embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+				Browser_Name:               fetchBrowserName(),
+				Browser_Language:           navigator.language,
+				Browser_Platform:           navigator.platform,
+				Case_Subject:               'Subject: Miaw Chat',
+				Language_Code:              'en_US',
+				Territory_Code:             'US',
+				Case_Classification:        'Billing Issue',
+				Case_ServiceType:           'TV',
+				Case_Type:                  'Technical Problem',
+				Contact_ID:                 '003WG00001BjhwQYAR',
+				Last_Article_Viewed:        'https://www.nowtv.com/gb/help/article/sports-membership',
+				Logged_In_Status:           'true',
+				Customer_Tracking_ID:       '234729348204982',
+				Page_URL:                   'https://www.nowtv.com/gb/help/article/sports-membership',
+				MarketingCloud_Visitor_ID:  '234j3453lk2343',
+				Get_In_Touch:               'False',
+				Case_Origin:                'Chat',
+				User_Agent:                 navigator.userAgent,
+				Help_Source:                'getInTouchPageSignedIn'
+			});
 			embeddedservice_bootstrap.utilAPI.launchChat();
 		} catch (err) {
 			console.error('Error launching chat: ', err);
@@ -193,39 +193,9 @@
 		try {
 			embeddedservice_bootstrap.settings.language = languageCode;
 
-			// Set hidden prechat fields once the SDK is fully ready.
-			window.addEventListener('onEmbeddedMessagingReady', function() {
-				embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-					'Browser_Name'              : fetchBrowserName(),
-					'Browser_Language'          : navigator.language,
-					'Browser_Platform'          : navigator.platform,
-					'Case_Subject'              : 'Subject: Miaw Chat',
-					'Language_Code'             : languageCode,
-					'Territory_Code'            : territoryCode,
-					'Case_Classification'       : 'Billing Issue',
-					'Case_ServiceType'          : 'TV',
-					'Case_Type'                 : 'Technical Problem',
-					'Contact_ID'                : '003Ad00000yzF61IAE',
-					'Last_Article_Viewed'       : 'https://www.nowtv.com/gb/help/article/sports-membership',
-					'Logged_In_Status'          : 'true',
-					'Customer_Tracking_ID'      : '234729348204982',
-					'Page_URL'                  : 'https://www.nowtv.com/gb/help/article/sports-membership',
-					'MarketingCloud_Visitor_ID' : '234j3453lk2343',
-					'Get_In_Touch'              : 'False',
-					'Case_Origin'               : 'Chat',
-					'User_Agent'                : navigator.userAgent,
-					'Help_Source'               : 'getInTouchPageSignedIn'
-				});
-			});
-
-			// Show the custom button tile when MIAW determines chat is available
-			// (business hours, agent capacity, routing rules all satisfied).
+			// Show tile when chat button is ready; hide/restore around maximised window
 			window.addEventListener('onEmbeddedMessagingButtonCreated', showChatWidget);
-
-			// Hide the tile while the chat window is maximised (open).
 			window.addEventListener('onEmbeddedMessagingWindowMaximized', hideChatWidget);
-
-			// Restore the tile when the user minimises the chat window.
 			window.addEventListener('onEmbeddedMessagingWindowMinimized', showChatWidget);
 
 			embeddedservice_bootstrap.init(
