@@ -22,6 +22,46 @@
 			display: none !important;
 		}
 
+		/* ── Chat tile ─────────────────────────────────────────────────────────── */
+		.chat-tile-wrapper {
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			padding: 32px 16px;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		}
+
+		.chat-tile {
+			background: #ffffff;
+			border: 1px solid #e0e0e0;
+			border-radius: 12px;
+			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+			padding: 32px 28px;
+			max-width: 420px;
+			width: 100%;
+			text-align: center;
+		}
+
+		.chat-tile__icon {
+			font-size: 48px;
+			line-height: 1;
+			margin-bottom: 16px;
+		}
+
+		.chat-tile__title {
+			font-size: 20px;
+			font-weight: 700;
+			color: #1a1a1a;
+			margin: 0 0 12px;
+		}
+
+		.chat-tile__subtitle {
+			font-size: 15px;
+			color: #555555;
+			margin: 0 0 24px;
+			line-height: 1.5;
+		}
+
 		#chatWithUsBtn {
 			display: none;
 			background: #0070d2;
@@ -41,7 +81,14 @@
 </head>
 <body>
 
-	<button id="chatWithUsBtn" onclick="launchCustomChat()">Chat with us</button>
+	<div class="chat-tile-wrapper">
+		<div class="chat-tile">
+			<div class="chat-tile__icon">💬</div>
+			<h2 class="chat-tile__title">Chat with us</h2>
+			<p class="chat-tile__subtitle" id="chatStatusMsg">Checking agent availability...</p>
+			<button id="chatWithUsBtn" onclick="launchCustomChat()">Chat with us</button>
+		</div>
+	</div>
 
 <script type='text/javascript'>
 	var chatInitialized = false;
@@ -51,13 +98,19 @@
 		fetch('https://ott-nbcu--stage.sandbox.my.salesforce-scrt.com/embeddedservice/v2/agent-availability?orgId=00DWG000006aIFt&esConfigName=Help_CRM_Messaging_Channel')
 			.then(function(response) { return response.json(); })
 			.then(function(data) {
+				var statusMsg = document.getElementById('chatStatusMsg');
+				var btn = document.getElementById('chatWithUsBtn');
 				if (data && data.agentAvailable === true) {
-					var btn = document.getElementById('chatWithUsBtn');
+					if (statusMsg) { statusMsg.textContent = 'Need help? Our agents are online and ready to assist you.'; }
 					if (btn) { btn.style.display = 'block'; }
+				} else {
+					if (statusMsg) { statusMsg.textContent = 'Sorry, our agents are currently offline. Please try again later.'; }
 				}
 			})
 			.catch(function(err) {
 				console.error('Error checking agent availability: ', err);
+				var statusMsg = document.getElementById('chatStatusMsg');
+				if (statusMsg) { statusMsg.textContent = 'Sorry, our agents are currently offline. Please try again later.'; }
 			});
 	}
 
