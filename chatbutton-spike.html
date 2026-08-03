@@ -86,12 +86,13 @@
 			<div class="chat-tile__icon">💬</div>
 			<h2 class="chat-tile__title">Chat with us</h2>
 			<p class="chat-tile__subtitle" id="chatStatusMsg">Checking agent availability...</p>
-			<button id="chatWithUsBtn" onclick="launchCustomChat()">Chat with us</button>
+			<button id="chatWithUsBtn">Chat with us</button>
 		</div>
 	</div>
 
 <script type='text/javascript'>
 	var chatInitialized = false;
+	var embeddedMessagingReady = false;
 
 	// ── Agent availability check ────────────────────────────────────────────
 	function checkAgentAvailability() {
@@ -139,6 +140,12 @@
 	 * Sets hidden pre-chat fields first, then calls the supported launchChat() API.
 	 */
 	function launchCustomChat() {
+		if (!embeddedMessagingReady ||
+			typeof embeddedservice_bootstrap === 'undefined' ||
+			!embeddedservice_bootstrap.utilAPI) {
+			console.warn('Chat is not ready yet. Please wait for the messaging service to finish loading.');
+			return;
+		}
 		try {
 			embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
 				Browser_Name:               fetchBrowserName(),
@@ -182,6 +189,10 @@
 				}
 			);
 			chatInitialized = true;
+
+			window.addEventListener('onEmbeddedMessagingReady', function() {
+				embeddedMessagingReady = true;
+			});
 		} catch (err) {
 			console.error('Error loading Embedded Messaging: ', err);
 		}
@@ -189,6 +200,13 @@
 
 	checkAgentAvailability();
 	loadBootstrap('US', 'en_US');
+
+	document.addEventListener('DOMContentLoaded', function() {
+		var btn = document.getElementById('chatWithUsBtn');
+		if (btn) {
+			btn.addEventListener('click', launchCustomChat);
+		}
+	});
 
 </script>
 
