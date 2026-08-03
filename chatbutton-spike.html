@@ -95,7 +95,7 @@
 
 	// ── Agent availability check ────────────────────────────────────────────
 	function checkAgentAvailability() {
-		fetch('https://ott-nbcu--stage.sandbox.my.salesforce-scrt.com/embeddedservice/v2/agent-availability?orgId=00DWG000006aIFt&esConfigName=Help_CRM_Messaging_Channel')
+		fetch('https://ott-nbcu--stage.sandbox.my.salesforce-scrt.com/embeddedservice/v1/agent-availability?orgId=00DWG000006aIFt&esConfigName=Help_CRM_Messaging_Channel')
 			.then(function(response) { return response.json(); })
 			.then(function(data) {
 				var statusMsg = document.getElementById('chatStatusMsg');
