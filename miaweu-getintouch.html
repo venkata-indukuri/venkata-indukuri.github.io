@@ -106,8 +106,47 @@
 		document.getElementById('startChatBtn').disabled = true;
 		document.getElementById('startChatBtn').textContent = 'Starting...';
 
-		var config = territoryConfig[selected];
-		loadBootstrap(config.territoryCode, config.languageCode);
+		if (chatInitialized) {
+			// Bootstrap already loaded — open chat directly
+			openChat();
+		} else {
+			var config = territoryConfig[selected];
+			loadBootstrap(config.territoryCode, config.languageCode);
+		}
+	}
+
+	function openChat() {
+		embeddedservice_bootstrap.utilAPI.launchChat()
+			.then(function() {
+				console.log('Successfully launched Messaging');
+				sendMessageToChat(userIssueMessage || sessionStorage.getItem('miaw_issue_message') || '');
+			})
+			.catch(function() {
+				console.error('Some error occurred when launching Messaging');
+				document.getElementById('startChatBtn').disabled = false;
+				document.getElementById('startChatBtn').textContent = 'Start Chat';
+			})
+			.finally(function() {
+				console.log('launchChat() - finally');
+			});
+	}
+
+	function sendMessageToChat(message) {
+		if (!message) return;
+		setTimeout(function() {
+			embeddedservice_bootstrap.utilAPI.sendTextMessage(message)
+				.then(function() {
+					console.log('Message sent');
+					sessionStorage.removeItem('miaw_issue_message');
+					userIssueMessage = '';
+				})
+				.catch(function() {
+					console.error('Message not sent');
+				})
+				.finally(function() {
+					console.log('sendTextMessage() - finally');
+				});
+		}, 3000);
 	}
 
 	function loadBootstrap(territoryCode, languageCode) {
@@ -157,18 +196,8 @@
 					'Help_Source'               : 'git-page-signedout'
 				});
 
-				// Auto-open the chat window so the user doesn't need to click the chat button
-				embeddedservice_bootstrap.utilAPI.launchChat();
-			});
-
-			// When the conversation is established, send the user's pre-typed issue as the first message
-			window.addEventListener('onEmbeddedMessagingConversationOpened', function() {
-				var message = userIssueMessage || sessionStorage.getItem('miaw_issue_message') || '';
-				if (message) {
-					embeddedservice_bootstrap.utilAPI.sendTextMessage(message);
-					sessionStorage.removeItem('miaw_issue_message');
-					userIssueMessage = '';
-				}
+				// Bootstrap is ready — open chat and send the pre-typed issue message
+				openChat();
 			});
 
 			embeddedservice_bootstrap.init(
