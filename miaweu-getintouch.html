@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +39,28 @@
 	</select>
 </center>
 
+<!-- Issue input panel — shown after territory is selected -->
+<div id="issuePanel" style="display:none; margin-top:24px; text-align:center;">
+	<label for="issueInput" style="display:block; font-size:16px; font-weight:bold; margin-bottom:10px;">
+		Please describe your issue:
+	</label>
+	<textarea
+		id="issueInput"
+		rows="4"
+		placeholder="Type your issue here..."
+		style="width:420px; max-width:90%; font-size:15px; padding:10px; border-radius:6px; border:1px solid #ccc; resize:vertical;"
+		aria-label="Describe your issue"
+	></textarea>
+	<br/>
+	<button
+		id="startChatBtn"
+		onclick="onStartChat()"
+		style="margin-top:14px; font-size:16px; padding:10px 32px; background-color:#0070d2; color:#fff; border:none; border-radius:6px; cursor:pointer;"
+	>
+		Start Chat
+	</button>
+</div>
+
 <script type='text/javascript'>
 	var territoryConfig = {
 		'GB': { languageCode: 'en_US', territoryCode: 'GB' },
@@ -47,6 +70,7 @@
 	};
 
 	var chatInitialized = false;
+	var userIssueMessage = '';
 
 	function onTerritoryChange() {
 		var selected = document.getElementById('territorySelect').value;
@@ -57,6 +81,30 @@
 			location.reload();
 			return;
 		}
+
+		// Show the issue input panel; bootstrap is loaded only when user clicks Start Chat
+		document.getElementById('issuePanel').style.display = 'block';
+		document.getElementById('issueInput').value = '';
+		document.getElementById('startChatBtn').disabled = false;
+		document.getElementById('startChatBtn').textContent = 'Start Chat';
+	}
+
+	function onStartChat() {
+		var selected = document.getElementById('territorySelect').value;
+		if (!selected) return;
+
+		var message = document.getElementById('issueInput').value.trim();
+		if (!message) {
+			alert('Please describe your issue before starting the chat.');
+			return;
+		}
+
+		userIssueMessage = message;
+		sessionStorage.setItem('miaw_issue_message', userIssueMessage);
+
+		// Disable button to prevent double-clicks
+		document.getElementById('startChatBtn').disabled = true;
+		document.getElementById('startChatBtn').textContent = 'Starting...';
 
 		var config = territoryConfig[selected];
 		loadBootstrap(config.territoryCode, config.languageCode);
@@ -106,8 +154,21 @@
 					'Get_In_Touch'              : 'True',
 					'Case_Origin'               : 'Chat',
 					'User_Agent'                : navigator.userAgent,
-					'Help_Source'				: 'git-page-signedout'
+					'Help_Source'               : 'git-page-signedout'
 				});
+
+				// Auto-open the chat window so the user doesn't need to click the chat button
+				embeddedservice_bootstrap.utilAPI.launchChat();
+			});
+
+			// When the conversation is established, send the user's pre-typed issue as the first message
+			window.addEventListener('onEmbeddedMessagingConversationOpened', function() {
+				var message = userIssueMessage || sessionStorage.getItem('miaw_issue_message') || '';
+				if (message) {
+					embeddedservice_bootstrap.utilAPI.sendTextMessage(message);
+					sessionStorage.removeItem('miaw_issue_message');
+					userIssueMessage = '';
+				}
 			});
 
 			embeddedservice_bootstrap.init(
@@ -124,12 +185,16 @@
 		}
 	}
 
-	// Restore territory after reload — runs before bootstrap is loaded
+	// Restore territory + issue message after reload — runs before bootstrap is loaded
 	(function() {
 		var savedTerritory = sessionStorage.getItem('miaw_territory');
 		if (savedTerritory) {
 			sessionStorage.removeItem('miaw_territory');
 			document.getElementById('territorySelect').value = savedTerritory;
+
+			// Restore the user's issue message so sendTextMessage can use it post-reload
+			userIssueMessage = sessionStorage.getItem('miaw_issue_message') || '';
+
 			var config = territoryConfig[savedTerritory];
 			loadBootstrap(config.territoryCode, config.languageCode);
 		}
