@@ -54,7 +54,7 @@
 	<br/>
 	<button
 		id="startChatBtn"
-		onclick="onStartChat()"
+		onclick="launchChat()"
 		style="margin-top:14px; font-size:16px; padding:10px 32px; background-color:#0070d2; color:#fff; border:none; border-radius:6px; cursor:pointer;"
 	>
 		Start Chat
@@ -89,7 +89,7 @@
 		document.getElementById('startChatBtn').textContent = 'Start Chat';
 	}
 
-	function onStartChat() {
+	function launchChat() {
 		var selected = document.getElementById('territorySelect').value;
 		if (!selected) return;
 
