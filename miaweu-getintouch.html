@@ -24,8 +24,7 @@
 <body>
 
 	<h1> <center>EU Sandbox EnhancedChat </center></h1> 
-
-<center>
+  
 	<select id="territorySelect" onchange="onTerritoryChange()" style="font-size:16px; padding:8px 16px; border-radius:6px; border:1px solid #ccc; margin-top:16px;">
 		<option value="" disabled selected>-- Select Territory --</option>
 		<option value="GB">GB - United Kingdom</option>
@@ -114,35 +113,13 @@
 	function openChat() {
 		embeddedservice_bootstrap.utilAPI.launchChat()
 			.then(function() {
-				console.log('Successfully launched Messaging');
-				sendMessageToChat(userIssueMessage || sessionStorage.getItem('miaw_issue_message') || '');
+				console.log('Chat window launched successfully');
 			})
 			.catch(function() {
-				console.error('Some error occurred when launching Messaging');
+				console.error('Error launching chat window');
 				document.getElementById('startChatBtn').disabled = false;
 				document.getElementById('startChatBtn').textContent = 'Start Chat';
-			})
-			.finally(function() {
-				console.log('launchChat() - finally');
 			});
-	}
-
-	function sendMessageToChat(message) {
-		if (!message) return;
-		setTimeout(function() {
-			embeddedservice_bootstrap.utilAPI.sendTextMessage(message)
-				.then(function() {
-					console.log('Message sent');
-					sessionStorage.removeItem('miaw_issue_message');
-					userIssueMessage = '';
-				})
-				.catch(function() {
-					console.error('Message not sent');
-				})
-				.finally(function() {
-					console.log('sendTextMessage() - finally');
-				});
-		}, 3000);
 	}
 
 	function loadBootstrap(territoryCode, languageCode) {
@@ -192,8 +169,23 @@
 					'Help_Source'               : 'git-page-signedout'
 				});
 
-				// Bootstrap is ready — open chat and send the pre-typed issue message
+				// Bootstrap is ready — open the chat window
 				openChat();
+			});
+
+			// Conversation is fully open — now safe to send the pre-typed message
+			window.addEventListener('onEmbeddedMessagingConversationOpened', function() {
+				var message = userIssueMessage || sessionStorage.getItem('miaw_issue_message') || '';
+				if (!message) return;
+				embeddedservice_bootstrap.utilAPI.sendTextMessage(message)
+					.then(function() {
+						console.log('Message sent');
+						sessionStorage.removeItem('miaw_issue_message');
+						userIssueMessage = '';
+					})
+					.catch(function() {
+						console.error('Message not sent');
+					});
 			});
 
 			embeddedservice_bootstrap.init(
