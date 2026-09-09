@@ -96,7 +96,7 @@
 			.then(function(data) {
 				var statusMsg = document.getElementById('chatStatusMsg');
 				var btn = document.getElementById('chatWithUsBtn');
-				if (data && data.agentAvailable === true) {
+				if (data && data.success === true && data.response && data.response.agentAvailable === true) {
 					if (statusMsg) { statusMsg.textContent = 'Need help? Our agents are online and ready to assist you.'; }
 					if (btn) { btn.style.display = 'block'; }
 				} else {
